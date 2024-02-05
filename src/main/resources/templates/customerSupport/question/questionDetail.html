@@ -1,8 +1,39 @@
 <html lang="ko" layout:decorate="~{/customerSupport/customerSupportLayout}">
-<div layout:fragment="CScontent" class="menuDetail" id="default" style="padding: 40px 40px 0px 50px; min-width: 100vh">
-    <div style="height: 100%;">
-        <h1 th:text="${question.title}"></h1>
-        <h2 th:utext="${@commonUtil.markdown(question.content)}"></h2>
+<div layout:fragment="CScontent" class="menuDetail" id="default" style="padding: 40px 200px 0px 200px;">
+    <div th:if="${#strings.equals(category, 'QUESTION') || #strings.equals(category, 'MYQUESTION')}"
+         style="min-width: 700px; border-radius: 20px; border: solid black 2px;">
+        <div style="border-bottom: solid black 2px;">
+            <div style="font-size: xx-large; text-align: center; font-weight: bold;">
+                문의 내용
+            </div>
+            <div style="padding: 20px; min-height: 330px; overflow: auto;">
+                <h1 th:text="'Q.' + ${question.title}" style="font-size: larger; padding: 10px;"></h1>
+                <h2 th:utext="${@commonUtil.markdown(question.content)}"></h2>
+            </div>
+            <div style="display: flex; flex-direction: row-reverse;" th:if="${user.username == question.member.username}">
+                <form class="btn" th:action="@{'/customerSupport/question/update/' + ${question.id}}">
+                    <input type="hidden" name="category" th:value="${category}">
+                    <button th:text="수정하기"></button>
+                </form>
+            </div>
+        </div>
+        <div>
+            <div style="font-size: xx-large; text-align: center; font-weight: bold;">
+                답변
+            </div>
+            <div style="padding: 20px; min-height: 350px; overflow: auto;">
+                <h2 th:utext="${@commonUtil.markdown(question.content)}"></h2>
+            </div>
+        </div>
+    </div>
+    <div th:if="${#strings.equals(category, 'NOTICE') || #strings.equals(category, 'FAQ')}" style="min-width: 700px; border-radius: 20px; border: solid black 2px;">
+        <div style="font-size: xx-large; text-align: center; font-weight: bold;">
+            공지사항
+        </div>
+        <div style="padding: 20px; min-height: 700px; overflow: auto;">
+            <h1 th:text="${question.title}" style="font-weight: bold; font-size: x-large; padding: 10px;"></h1>
+            <h2 th:utext="${@commonUtil.markdown(question.content)}"></h2>
+        </div>
     </div>
     <script th:inline="javascript">
         var category = /*[[${category}]]*/ null;

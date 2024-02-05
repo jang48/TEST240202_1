@@ -16,8 +16,7 @@
 
 .menuDetail {
     height: 100vh;
-    padding: 40px 40px 0px 50px;
-    min-width: 100vh;
+    padding: 40px 40px 0px 40px;
 }
 
 .searchButton {
@@ -43,6 +42,8 @@
     background: lightgray;
 }
 
-.questionList:hover {
-
+.questionTitle:hover {
+    cursor: pointer;
+    text-decoration: underline;
+    transition: 0.1s;
 }

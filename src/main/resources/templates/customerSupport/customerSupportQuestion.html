@@ -27,7 +27,7 @@
                 <th class="noticeBoard" style="width: 10%" th:text="${question.id}"></th>
                 <th class="noticeBoard" style="width: 40%">
                     <form th:action="@{/customerSupport/question/detail}" method="get">
-                        <button class="questionTitle" th:text="${question.title}" style="width: 100%"></button>
+                        <button class="questionTitle th:text="${question.title}" style="width: 100%"></button>
                         <input type="hidden" name="questionId" th:value="${question.id}">
                     </form>
                 </th>

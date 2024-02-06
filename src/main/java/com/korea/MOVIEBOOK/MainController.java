@@ -63,7 +63,7 @@ public class MainController {
         model.addAttribute("pagingBook", pagingBook);
         model.addAttribute("kw", kw);
 
-        return "search_list";
+        return "search/search_list";
     }
 
     @GetMapping("/search/webtoon")
@@ -71,13 +71,48 @@ public class MainController {
                                   @RequestParam(value = "page", defaultValue = "0") int page,
                                   @RequestParam(value = "kw", defaultValue = "") String kw){
 
-        Page<Webtoon> pagingWebtoon = webtoonService.getWebtoonList(page, kw);
+        Page<Webtoon> pagingWebtoon = this.webtoonService.getWebtoonList(page, kw);
 
         model.addAttribute("pagingWebtoon", pagingWebtoon);
         model.addAttribute("kw", kw);
-        return "webtoon_search_list";
+        return "search/webtoon_search_list";
     }
 
+    @GetMapping("/search/movie")
+    public String searchMovieList(Model model,
+                                    @RequestParam(value = "page", defaultValue = "0") int page,
+                                    @RequestParam(value = "kw", defaultValue = "") String kw){
+
+        Page<Movie> pagingMovie = this.movieService.getMovieList(page, kw);
+
+        model.addAttribute("pagingMovie", pagingMovie);
+        model.addAttribute("kw", kw);
+        return "search/movie_search_list";
+    }
+
+    @GetMapping("/search/book")
+    public String searchBookList(Model model,
+                                  @RequestParam(value = "page", defaultValue = "0") int page,
+                                  @RequestParam(value = "kw", defaultValue = "") String kw){
+
+        Page<Book> pagingBook = this.bookService.getBookList(page, kw);
+
+        model.addAttribute("pagingBook", pagingBook);
+        model.addAttribute("kw", kw);
+        return "search/book_search_list";
+    }
+
+    @GetMapping("/search/drama")
+    public String searchDramaList(Model model,
+                                 @RequestParam(value = "page", defaultValue = "0") int page,
+                                 @RequestParam(value = "kw", defaultValue = "") String kw){
+
+        Page<Drama> pagingDrama = this.dramaService.getDramaList(page, kw);
+
+        model.addAttribute("pagingDrama", pagingDrama);
+        model.addAttribute("kw", kw);
+        return "search/drama_search_list";
+    }
     @GetMapping("/")
     public String mainPage(Model model) {
 

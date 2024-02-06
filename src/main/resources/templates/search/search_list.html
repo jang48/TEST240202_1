@@ -17,7 +17,14 @@
         </div>
         <div>
             <div style="display: flex; justify-content: space-around; margin-top: 40px; font-weight: bold">
-                <span style="font-size: 30px; color: black;">영화</span>
+                <div style="display : flex;">
+                    <span style="font-size: 30px; color: black;">영화</span>
+                    <span th:text="${'( 총 ' + pagingmovie.getTotalElements() + '개의 검색결과 )'}" style="display: flex; align-items: center; color : #868e96; margin-left : 10px;"></span>
+                </div>
+                <form th:if="${pagingmovie.getTotalPages() > 1}" th:action="@{/search/movie}" method="get">
+                    <button style="cursor: pointer; margin-top: 22px;">더보기</button>
+                    <input type="text" name="kw" th:value="${param.kw}" hidden="hidden">
+                </form>
             </div>
             <div style="display: flex; justify-content: center; margin-bottom: 60px;">
                 <div style="width : 60%; max-height: 820px;">
@@ -60,10 +67,15 @@
                     </div>
                 </div>
             </div>
-
-
             <div style="display: flex; justify-content: space-around; margin-top: 40px; font-weight: bold">
-                <span style="font-size: 30px; color: black;">TV</span>
+                <div style="display : flex;">
+                    <span style="font-size: 30px; color: black;">TV</span>
+                    <span th:text="${'( 총 ' + pagingDrama.getTotalElements() + '개의 검색결과 )'}" style="display: flex; align-items: center; color : #868e96; margin-left : 10px;"></span>
+                </div>
+                <form th:if="${pagingDrama.getTotalPages() > 1}" th:action="@{/search/drama}" method="get">
+                    <button style="cursor: pointer; margin-top: 22px;">더보기</button>
+                    <input type="text" name="kw" th:value="${param.kw}" hidden="hidden">
+                </form>
             </div>
             <div style="display: flex; justify-content: center; margin-bottom: 60px;">
                 <div style="width : 60%; max-height: 820px;">
@@ -101,7 +113,14 @@
 
 
             <div style="display: flex; justify-content: space-around; margin-top: 40px; font-weight: bold">
-                <span style="font-size: 30px; color:black;">도서</span>
+                <div style="display : flex;">
+                    <span style="font-size: 30px; color: black;">도서</span>
+                    <span th:text="${'( 총 ' + pagingBook.getTotalElements() + '개의 검색결과 )'}" style="display: flex; align-items: center; color : #868e96; margin-left : 10px;"></span>
+                </div>
+                <form th:if="${pagingBook.getTotalPages() > 1}" th:action="@{/search/book}" method="get">
+                    <button style="cursor: pointer; margin-top: 22px;">더보기</button>
+                    <input type="text" name="kw" th:value="${param.kw}" hidden="hidden">
+                </form>
             </div>
             <div style="display: flex; justify-content: center; margin-bottom: 60px;">
                 <div style="width : 60%; max-height: 820px;">
@@ -135,9 +154,12 @@
 
 
             <div style="display: flex; justify-content: space-around; margin-top: 40px; font-weight: bold">
-                <span style="font-size: 30px; color:black;">웹툰</span>
-                <form th:action="@{/search/webtoon}" method="get">
-                    <button  style="cursor: pointer; margin-top: 22px;">더보기</button>
+                <div style="display : flex;">
+                    <span style="font-size: 30px; color: black;">웹툰</span>
+                    <span th:text="${'( 총 ' + pagingWebtoon.getTotalElements() + '개의 검색결과 )'}" style="display: flex; align-items: center; color : #868e96; margin-left : 10px;"></span>
+                </div>
+                <form th:if="${pagingWebtoon.getTotalPages() > 1}" th:action="@{/search/webtoon}" method="get">
+                    <button style="cursor: pointer; margin-top: 22px;">더보기</button>
                     <input type="text" name="kw" th:value="${param.kw}" hidden="hidden">
                 </form>
             </div>

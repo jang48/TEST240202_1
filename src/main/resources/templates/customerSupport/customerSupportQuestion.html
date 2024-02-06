@@ -16,23 +16,31 @@
             <tr class="textList">
                 <th class="noticeBoard" style="width: 10%">번호</th>
                 <th class="noticeBoard" style="width: 40%">제목</th>
+                <th class="noticeBoard">작성자</th>
                 <th class="noticeBoard">작성일</th>
                 <th class="noticeBoard">조회수</th>
-                <th class="noticeBoard" style="width: 10%;">비밀글</th>
+                <th class="noticeBoard" style="width: 10%;" th:if="${#strings.equals(category, 'QUESTION') || #strings.equals(category, 'MYQUESTION')}">비밀글</th>
             </tr>
             </thead>
             <tbody style="border-bottom: gray solid 1px;">
             <tr th:each="question : ${paging}">
                 <th class="noticeBoard" style="width: 10%" th:text="${question.id}"></th>
                 <th class="noticeBoard" style="width: 40%">
-                    <form th:action="@{/customerSupport/question/detail}" method="get">
-                        <input class="questionList" type="submit" th:value="${question.title}">
-                        <input type="hidden" name="questionId" th:value="${question.id}">
+                    <form th:action="@{'/customerSupport/question/detail/' + ${question.id}}" method="get">
+                        <button class="questionTitle" th:text="${question.title}" style="width: 100%"></button>
                     </form>
                 </th>
+                <th class="noticeBoard" th:text="${question.member.nickname}"></th>
                 <th class="noticeBoard" th:text="${#temporals.format(question.writeDate, 'yyyy-MM-dd')}"></th>
                 <th class="noticeBoard">조회수</th>
                 <th style="text-align: -webkit-center; vertical-align: middle;"><img th:if="${question.isPrivate}" src="/imgs/lock.png" alt="" style="width: 35px;"></th>
+                <th class="noticeBoard" th:if="${member != null}">
+                    <form class="btn btn-outline" th:action="@{'/customerSupport/question/delete/' + ${question.id}}" method="post"
+                          th:if="${question.member.username == member.username || member.username == 'admin'}">
+                        <input type="hidden" name="category" th:value="${category}">
+                        <button>삭제</button>
+                    </form>
+                </th>
             </tr>
             </tbody>
         </table>
@@ -76,7 +84,6 @@
             <button class="btn btn-outline">공지작성</button>
         </a>
     </div>
-    <button class="btn btn-outline" onclick="error_page('안녕하세요')">버튼</button>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script th:inline="javascript">
         var category = /*[[${category}]]*/ null;
@@ -92,12 +99,11 @@
             menuDetail.id = "myQuestion";
         }
 
-        var errorMsg = /*[[${session.error}]]*/ null;
+        var urlParams = new URLSearchParams(window.location.search);
+        var errorMsg = urlParams.get('error');
 
         if (errorMsg) {
-            $(document).ready(function() {
-                error_page(errorMsg);
-            }
+            error_page(decodeURIComponent(errorMsg));
         }
 
         function error_page(title) {

@@ -5,30 +5,23 @@
     <title>Title</title>
 </head>
 <body>
-<div layout:fragment="profileContent" style="width: 85%; height: 100%"  class="menudetail" id="change_information">
-
-    <form id="menu" name="frm" style="display : flex; flex-direction : row; margin-left: 30%; margin-top: 80px"
+<div layout:fragment="profileContent" style="min-width: 1000px; width: 85%; height: 100%">
+    <form id="menu" name="frm" style="display : flex; flex-direction: column; align-items: center; margin-top: 60px"
           enctype="multipart/form-data">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         <input type="hidden" id="id" name="id" th:value="${member?.Id == null ? '' : member.Id}">
         <div style="min-height: 400px; min-width: 400px; width: 30%; height: 30%; display: flex; flex-direction: column; justify-content: center;">
             <img id="preview" src="/member/defaultImage.jpg">
         </div>
-        <div class="MenuDet" name="MenuDet" style="margin-left : 20px;">
-            <div>
-                <input type="file" name="file"
-                       style="width : 72%; font-size : 13px; margin-top: 370px; font-size: 15px; "
-                       accept="image/png, image/jpeg, image/jpg" onchange="previewImage(this)">
-                <Button type="submit" class="MenuInfoSave" style="margin-left: -50px; border: solid 1px;"
-                        onclick="doSaveMenu()">프로필 사진 변경
-                </Button>
-            </div>
+        <div class="MenuDet" name="MenuDet" style="margin-top: 10px;">
+            <input type="file" name="file" accept="image/png, image/jpeg, image/jpg" onchange="previewImage(this)">
+            <Button type="submit" class="MenuInfoSave" style="border: solid 1px;" onclick="doSaveMenu()">프로필 사진 변경
+            </Button>
         </div>
     </form>
 
-    <div class="updatenm" style="margin: 280px 0px 0px 740px;}">
-        <form th:action="@{/member/changeInformation}" method="post" th:object="${nicknameForm}"
-              style="margin-left: -685px; margin-top: -210px;">
+    <div class="updatenm">
+        <form th:action="@{/member/changeInformation}" method="post" th:object="${nicknameForm}">
             <div role="alert" th:if="${#fields.hasAnyErrors()}">
                 <div th:replace="~{form_errors :: formErrorsFragment}"></div>
             </div>
@@ -41,16 +34,16 @@
                     <span class="label-text" style="font-size: large; font-weight: bold;">변경할 닉네임</span>
                 </div>
                 <input type="nickname" placeholder="변경할 닉네임을 입력해주세요." id="newNickname" th:field="*{newNickname}"
-                       style="height: 70px; width: 80%; margin-bottom: 30px;" name="newNickname"
+                       style="height: 70px;" name="newNickname"
                        class="input input-bordered"/>
             </label>
             <input type="button" class="input input-bordered" th:value="변경하기"
-                   style="background: #D2E1FF; margin-left: 74%; width: 110px;" onclick="checkNickname(this)">
+                   style="background: #D2E1FF; width: 110px;" onclick="checkNickname(this)">
+            <a th:href="@{/member/mypage}">
+                <input type="button" class="input input-bordered" th:value="취소"
+                       style="background: #D2E1FF; margin-top: 10px; width: 110px;">
+            </a>
         </form>
-        <a th:href="@{/member/mypage}">
-            <input type="button" class="input input-bordered" th:value="취소"
-                   style="background: #D2E1FF; margin-top: 10px; margin-left: 57%; width: 110px;">
-        </a>
         <script src="http://code.jquery.com/jquery-latest.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
         <script>

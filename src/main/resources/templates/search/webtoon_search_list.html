@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko" layout:decorate="~{layout2}">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/serach_list.css}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+</head>
+<body>
+<div layout:fragment="content" style="width: 100%; height: 100%; min-height : 576px;">
+    <div style="margin-bottom: 50px; display: flex; flex-direction: column;">
+        <div style="margin-left: 20%; margin-top : 30px;">
+            <span th:text="'&quot;' + ${kw} + '&quot;'"
+              style="font-weight: bold; rgb(116, 116, 123); margin-right: 5px;"></span>
+            <span style="margin-top: 10px;"> 의 검색결과</span>
+        </div>
+        <div style="font-weight: bold; margin-left: 20%; margin-top : 30px;">
+            <span style="font-size: 25px; color:black;">웹툰</span>
+        </div>
+        <div style="display: flex; justify-content: center;">
+            <div style="width : 60%; display : flex;">
+                <form th:action="@{/webtoon/detail}" method="get" th:if="${pagingWebtoon}" th:each="webtoon, loop : ${pagingWebtoon}">
+                    <button>
+                    <div class="img" style="padding : 5px; width: 213px; height: 305px; display: flex;
+                        justify-content: center; align-items: center;">
+                        <img th:src="${webtoon.getImageUrl}" style="max-height: 100%;">
+                    </div>
+                    <div>
+                        <span class="webToon-title"
+                              th:text="${#strings.length(webtoon.getTitle) > 16 ? #strings.substring(webtoon.getTitle, 0, 16) + '..' : webtoon.getTitle}"
+                              style="font-size : 17px;"></span>
+                        <div class="mv-text" th:text="${webtoon.title}"></div>
+                        <div class="short-kind">
+                            <span style="color : #868e96; font-size : 15px;">글,그림 :</span>
+                            <span th:text="${#strings.length(webtoon.getAuthor()) > 7 ? #strings.substring(webtoon.getAuthor(), 0, 7) + '..' : webtoon.getAuthor()}"
+                                  style="font-size : 17px; margin-bottom : 5px;"></span>
+                        </div>
+                    </div>
+                    <input type="hidden" name="webtoonId" th:value="${webtoon.getWebtoonId()}">
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="join" th:if="${pagingWebtoon.totalPages > 0}"
+             style="display : flex; justify-content : space-around; margin-top : 18px;">
+            <ul class="pagination justify-content-center" style="display : flex;">
+                <li class="page-item" th:classappend="${!pagingWebtoon.hasPrevious} ? 'btn-disabled'">
+                    <a class="join-item btn" th:if="${pagingWebtoon.hasPrevious}"
+                       th:href="@{|?kw=${kw}&page=${pagingWebtoon.number-1}|}">
+                        <span>«</span>
+                    </a>
+                </li>
+                <li th:each="page: ${#numbers.sequence(pagingWebtoon.number, pagingWebtoon.number)}"
+                    th:if="${page >= pagingWebtoon.number and page <= pagingWebtoon.number}"
+                    th:classappend="${page == pagingWebtoon.number} ? 'active'"
+                    class="page-item btn-disabled">
+                    <span th:text="${'Page ' + (page + 1)}" class="join-item btn" th:href="@{|?kw=${kw}&page=${page}|}"></span>
+                </li>
+                <li class="page-item" th:classappend="${!pagingWebtoon.hasNext} ? 'btn-disabled'">
+                    <a class="join-item btn" th:if="${pagingWebtoon.hasNext}"
+                       th:href="@{|?kw=${kw}&page=${pagingWebtoon.number+1}|}">
+                        <span>»</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

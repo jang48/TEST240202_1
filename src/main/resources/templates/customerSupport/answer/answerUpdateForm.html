@@ -1,0 +1,40 @@
+<html lang="ko" layout:decorate="~{/customerSupport/customerSupportLayout}">
+<div layout:fragment="CScontent" class="menuDetail" id="default" style="height: 100vh; padding: 40px 40px 0px 50px; min-width: 100vh;">
+    <div style="height: 100%;">
+        <form th:action="@{/customerSupport/answer/updateAnswer}" id="createForm" method="post" style="height: 100%;">
+            <div class="textarea textarea-bordered textarea-3xl w-full" id="container"
+                 oninput="onDivContentHandler()" contentEditable='true' style="height: 80%; min-height: 700px; resize: none; overflow: auto;">
+            </div>
+            <textarea name="content" id="content" style="display:none;" th:text="${question.answer.content}"></textarea>
+            <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                <input type="file" name="img">
+                <input type="submit" class="btn btn-outline" th:value="답변저장">
+                <input type="hidden" name=questionId th:value="${question.id}">
+            </div>
+        </form>
+    </div>
+    <script th:inline="javascript">
+        window.onload = function() {
+            var initialContent = document.getElementById('content').value;
+            document.getElementById('container').innerText = initialContent;
+        };
+
+        function onDivContentHandler() {
+            var divContent = document.getElementById('container').innerText;
+            document.getElementById('content').value = divContent;
+        }
+
+        var category = /*[[${category}]]*/ null;
+        var menuDetail = document.querySelector('.menuDetail');
+
+        if (category === "NOTICE") {
+            menuDetail.id = "notice";
+        } else if (category === "FAQ") {
+            menuDetail.id = "FAQ";
+        } else if (category === "QUESTION") {
+            menuDetail.id = "question";
+        }
+    </script>
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+</div>
+</html>

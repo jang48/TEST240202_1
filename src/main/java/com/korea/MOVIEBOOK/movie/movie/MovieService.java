@@ -242,4 +242,13 @@ public class MovieService {
 //
 //        return movieRepository.findByMemberId(paymentId, pageable);
 //    }
+
+    public Movie getMovieUseId(Long id) {
+
+        Movie movie = this.movieRepository.getById(id);
+
+        return movie;
+    }
 }
+
+

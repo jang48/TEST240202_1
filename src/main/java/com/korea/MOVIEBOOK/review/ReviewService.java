@@ -110,6 +110,8 @@ public class ReviewService {
     public Long getReivewCount(Member member) {
         return reviewRepository.countByMember(member);
     }
+
+
     public List<Review> getReviewByBookId(Long BookId) {
         return reviewRepository.findReviewsByBookId(BookId);
     }

@@ -31,8 +31,9 @@
             <div style="width: 50%;">
                 <form th:action="@{/search}" method="get">
                     <img src="/imgs/dodbogi.svg" style="width : 15px; position: sticky; top: 5%; margin-left: 2%;">
-                    <input class="search" id="search" type="search" name="kw" style="width: 100%; background: #dddedf;"
+                    <input class="search" id="search_kw" type="search" name="kw" style="width: 100%; background: #dddedf;"
                            placeholder="콘텐츠,인물,컬렉션, 유저를 검색해보세요." th:value="${param.kw}">
+
                 </form>
             </div>
             <div style="display: flex; align-items: flex-end; font-weight: bold;">

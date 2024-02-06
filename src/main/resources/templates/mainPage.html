@@ -59,6 +59,7 @@
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowfullscreen></iframe>
         </div>
+
     </div>
     <div id="myModal4" class="myModal">
         <div class="modalVideo">
@@ -145,7 +146,10 @@
         <div class="swiper-button-next"></div>
     </div>
     <div>
-        <form id="enter-form" style="position: fixed; bottom: 10px; right: 10px; background-color: white; padding: 10px;; border: 1px solid #ccc; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); z-index: 9999; border-radius:30px; background:pink">
+        <button onclick="clickChat()">
+            <img class="chatImg" src="/etc/chattingRoom.png" style="position: fixed; bottom: 10px; right: 153px; padding: 10px; width : 78px; z-index : 998;">
+        </button>
+        <form id="enter-form">
             <label for="username">
                 닉네임:
                 <input id="username" type="text" required style="background:pink;"  placeholder="사용할 닉네임" >
@@ -153,14 +157,20 @@
             <button id="enter-button" type="button" onclick="enterChat()" required>채팅하기</button>
         </form>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
+        function clickChat(){
+            var enterForm = document.getElementById('enter-form');
+            enterForm.style.display = (enterForm.style.display === 'none' || enterForm.style.display === '') ? 'block' : 'none';
+        }
+
         document.getElementById("enter-form").addEventListener("submit", event => {
             event.preventDefault();
             const username = document.getElementById("username").value;
             window.open(`/chat/enter?username=${username}`, "_blank", "width=600,height=400");
         });
-    </script>
-    <script>
+
         function enterChat() {
             const username = document.getElementById("username").value.trim();
             if (username !== "") {
@@ -176,9 +186,7 @@
             event.preventDefault();
             enterChat();
         });
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script>
+
         var swiper = new Swiper(".mySwiper", {
             slidesPerView: 1,
             spaceBetween: 30,
@@ -207,53 +215,53 @@
             },
         });
 
-    document.addEventListener('DOMContentLoaded', function() {
-    const openModalBtns = document.querySelectorAll('.openModalBtn');
+        document.addEventListener('DOMContentLoaded', function() {
+            const openModalBtns = document.querySelectorAll('.openModalBtn');
 
-    openModalBtns.forEach(function(btn) {
-        btn.addEventListener('click', function() {
-            const modalId = btn.getAttribute('data-modal-id');
-            openModal(modalId);
+            openModalBtns.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    const modalId = btn.getAttribute('data-modal-id');
+                    openModal(modalId);
+                });
+            });
+
+            window.addEventListener('click', function(event) {
+                const modalCloseBtn = event.target.closest('.close');
+                if (modalCloseBtn) {
+                    const modalId = modalCloseBtn.getAttribute('data-modal-id');
+                    closeModal(modalId);
+                }
+            });
         });
-    });
 
-    window.addEventListener('click', function(event) {
-        const modalCloseBtn = event.target.closest('.close');
-        if (modalCloseBtn) {
-            const modalId = modalCloseBtn.getAttribute('data-modal-id');
-            closeModal(modalId);
+        //  모달 창 열기
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.style.display = 'block';
+            document.body.style.overflow = "hidden";
+            document.body.style.paddingRight = `${getScrollbarWidth()}px`;
         }
-    });
-});
 
-    //  모달 창 열기
-    function openModal(modalId) {
-        const modal = document.getElementById(modalId);
-        modal.style.display = 'block';
-        document.body.style.overflow = "hidden";
-        document.body.style.paddingRight = `${getScrollbarWidth()}px`;
-    }
+        // 모달 창 닫기
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.style.display = 'none';
+            document.body.style.overflow = "auto";
+            document.body.style.paddingRight = '0';
+        }
 
-    // 모달 창 닫기
-    function closeModal(modalId) {
-        const modal = document.getElementById(modalId);
-        modal.style.display = 'none';
-        document.body.style.overflow = "auto";
-        document.body.style.paddingRight = '0';
-    }
-
-function getScrollbarWidth() {
-    const scrollDiv = document.createElement('div');
-    scrollDiv.style.width = '100px';
-    scrollDiv.style.height = '100px';
-    scrollDiv.style.overflow = 'scroll';
-    scrollDiv.style.position = 'absolute';
-    scrollDiv.style.top = '-9999px';
-    document.body.appendChild(scrollDiv);
-    const scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
-    document.body.removeChild(scrollDiv);
-    return scrollbarWidth;
-}
+        function getScrollbarWidth() {
+            const scrollDiv = document.createElement('div');
+            scrollDiv.style.width = '100px';
+            scrollDiv.style.height = '100px';
+            scrollDiv.style.overflow = 'scroll';
+            scrollDiv.style.position = 'absolute';
+            scrollDiv.style.top = '-9999px';
+            document.body.appendChild(scrollDiv);
+            const scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
+            document.body.removeChild(scrollDiv);
+            return scrollbarWidth;
+        }
     </script>
 </div>
 </html>

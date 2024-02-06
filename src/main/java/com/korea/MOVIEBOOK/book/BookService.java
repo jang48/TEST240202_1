@@ -254,7 +254,7 @@ public class BookService {
     public Page<Book> getBookList(int page, String kw) {
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("title"));
-        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+        Pageable pageable = PageRequest.of(page, 5, Sort.by(sorts));
 
         return bookRepository.findAllByBookKeyword(kw, pageable);
     }

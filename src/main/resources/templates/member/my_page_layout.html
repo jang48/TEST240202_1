@@ -3,25 +3,15 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" th:href="@{/member/my_page.css}">
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var parameter = [[${parameter}]];
+        var target = document.querySelector('.menudetail');
+        var targetId = target.id;
 
-            document.querySelectorAll('.menu-item').forEach(item => {
-                item.classList.remove('clicked');
-            });
+        var menuTabs = document.querySelectorAll('.menu-item');
 
-            if (parameter == '1') {
-                document.querySelector('.menu-item:nth-child(2)').classList.add('clicked');
-            } else if (parameter == '2') {
-                document.querySelector('.menu-item:nth-child(3)').classList.add('clicked');
-            }else if (parameter == '3') {
-                document.querySelector('.menu-item:nth-child(4)').classList.add('clicked');
-            }else if (parameter == '4') {
-                document.querySelector('.menu-item:nth-child(5)').classList.add('clicked');
-            } else {
-                document.querySelector('.menu-item:nth-child(1)').classList.add('clicked');
+        menuTabs.forEach(function(element) {
+            if (element.type === targetId) {
+                element.style.backgroundColor = "green";
             }
-
         });
     </script>
 </head>
@@ -49,22 +39,22 @@
                 </div>
             </div>
             <ul class="menu rounded-box">
-                <li><a class="menu-item" th:href="@{/member/mypage}" onclick="clickMenu(event, this)">내 정보</a></li>
-                <li><a class="menu-item" th:href="@{/member/changeInformation(parameter='1')}" onclick="clickMenu(event, this)">회원 정보 수정</a></li>
-                <li><a class="menu-item" th:href="@{/member/changePw(parameter='2')}" onclick="clickMenu(event, this)">비밀번호 변경</a></li>
+                <li><a class="menu-item" type="my_age" th:href="@{/member/mypage}">내 정보</a></li>
+                <li><a class="menu-item" type="change_information" th:href="@{/member/changeInformation}" >회원 정보 수정</a></li>
+                <li><a class="menu-item" type="change_pw" th:href="@{/member/changePw}" >비밀번호 변경</a></li>
                 <li>
                     <details close>
                         <summary style="margin-left: 7px;" class="menu-item">구매 내역</summary>
                         <ul>
-                            <li><a class="menu-item" th:href="@{/member/purchasedetails/movie(parameter='3')}">영화 구매 내역</a></li>
-                            <li><a class="menu-item" th:href="@{/member/purchasedetails/drama(parameter='3')}">드라마 구매 내역</a></li>
-                            <li><a class="menu-item" th:href="@{/member/purchasedetails/book(parameter='3')}">책 구매 내역</a></li>
-                            <li><a class="menu-item" th:href="@{/member/purchasedetails/webtoon(parameter='3')}">웹툰 구매 내역</a></li>
+                            <li><a class="menu-item" type="purchasedetails_movie" th:href="@{/member/purchasedetails/movie}">영화 구매 내역</a></li>
+                            <li><a class="menu-item" type="purchasedetails_drama" th:href="@{/member/purchasedetails/drama}">드라마 구매 내역</a></li>
+                            <li><a class="menu-item" type="purchasedetails_book" th:href="@{/member/purchasedetails/book}">책 구매 내역</a></li>
+                            <li><a class="menu-item" type="purchasedetails_webtoon" th:href="@{/member/purchasedetails/webtoon}">웹툰 구매 내역</a></li>
 
                         </ul>
                     </details>
                 </li>
-                <li><a class="menu-item" th:href="@{/member/deleteForm(parameter='4')}" onclick="clickMenu(event, this)">회원 탈퇴</a></li>
+                <li><a class="menu-item" type="delete_form" th:href="@{/member/deleteForm}">회원 탈퇴</a></li>
             </ul>
         </div>
     </div>

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -36,10 +37,15 @@ public class MainController {
 
     LocalDateTime yesterday = LocalDateTime.now().minusDays(1);
     String date = yesterday.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-    @GetMapping("/test")
-    public String aaaa() {
-        return "test";
+    @GetMapping(value = "/test", produces = "application/json")
+    @ResponseBody
+    public Movie aaaa(Model model, @RequestParam("input") Long movieid)  {
+
+       Movie movie = this.movieService.getMovieUseId(movieid);
+
+       return movie;
     }
+
     @GetMapping("/search")
     public String searchList(Model model,
                              @RequestParam(value = "page", defaultValue = "0") int page,
@@ -51,14 +57,25 @@ public class MainController {
         Page<Book> pagingBook = bookService.getBookList(page, kw);
         Page<Webtoon> pagingWebtoon = webtoonService.getWebtoonList(page, kw);
 
-
         model.addAttribute("pagingWebtoon", pagingWebtoon);
         model.addAttribute("pagingmovie", pagingMovie);
         model.addAttribute("pagingDrama", pagingDrama);
         model.addAttribute("pagingBook", pagingBook);
-        model.addAttribute("spec", kw);
+        model.addAttribute("kw", kw);
 
         return "search_list";
+    }
+
+    @GetMapping("/search/webtoon")
+    public String searchWebtoonList(Model model,
+                                  @RequestParam(value = "page", defaultValue = "0") int page,
+                                  @RequestParam(value = "kw", defaultValue = "") String kw){
+
+        Page<Webtoon> pagingWebtoon = webtoonService.getWebtoonList(page, kw);
+
+        model.addAttribute("pagingWebtoon", pagingWebtoon);
+        model.addAttribute("kw", kw);
+        return "webtoon_search_list";
     }
 
     @GetMapping("/")

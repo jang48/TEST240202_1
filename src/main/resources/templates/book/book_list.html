@@ -39,10 +39,10 @@
                             <div class="short-info" th:data-id="${book.id}" th:onmouseenter="'onTitle(this, ' + ${book.id} + ')'" th:onmouseleave="'leaveTitle(' + ${book.id} + ')'" style="display : flex; flex-direction: column; align-items: flex-start;
                         margin-left : 5px; padding-top: 16px;">
                                 <form class="title-co" >
-                                    <input class="title" name="title"
+                                    <input class="title"
                                            th:value="${#strings.length(book.title) > 15 ? #strings.substring(book.title, 0, 15) + '..' : book.title}"
                                            style="font-size : 17px;" readonly>
-                                    <input class="title2" name="title" th:value="${book.title}" hidden="hidden">
+                                    <input class="title2"  th:value="${book.title}" hidden="hidden">
                                 </form>
                                 <div class="short-kind">
                                     <span style="color : #868e96; font-size : 15px;">출간일</span>

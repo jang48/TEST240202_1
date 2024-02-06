@@ -8,59 +8,59 @@
 </head>
 <body>
 <div layout:fragment="content" style="width : 100%; min-height : 1100px;">
-    <div class="popup-box-1 popup-box-type-a" style="white-space : nowrap;">
-        <div class="popup">
-            <div class="head" style="display : flex; flex-direction: column-reverse; margin-top : 5px;">
-                <div style="display: flex; justify-content: center;">
-                <span class="login_btn" >로그인</span>
-                </div>
-                <div class="btn-close"></div>
-            </div>
-            <div class="body">
-                <form class="login-form" id="urlForm" th:action="@{/member/login}" method="post">
-                    <div style="display: flex; flex-direction: column; align-items: center; margin-top : 4%;">
-                        <div class="form-group" style="padding: 4px 0px; margin-top:5%;">
-                            <input type="text" name="username" id="username" class="form-control"
-                                   style="padding: 8px; border-radius: 6px; background: rgb(245, 245, 245);"
-                                   placeholder="사용자 ID" required>
-                        </div>
-                        <div class="form-group" style="padding: 4px 0px; margin-top:5%;">
-                            <input type="password" name="password" id="password" class="form-control"
-                                   style="padding: 8px; border-radius: 6px; background: rgb(245, 245, 245);"
-                                   placeholder="비밀번호" required>
-                        </div>
-                        <div>
-                            <button type="submit"
-                                    style="margin-top:5%; padding: 5px 82px; font-size: 16px; font-weight: bold; border: none; background-color: red; color: white; cursor: pointer;">
-                                로그인
-                            </button>
-                        </div>
-                    </div>
-                    <div class="form-group" style="padding: 10px; display: flex; justify-content: space-evenly; margin-top : 5%; margin-bottom : 5%;">
-                        <a th:href="@{/member/findUsername}">아이디 찾기</a>
-                        <a>|</a>
-                        <a th:href="@{/member/resetPassword}">비밀번호 찾기</a>
-                    </div>
-                </form>
+<!--    <div class="popup-box-1 popup-box-type-a" style="white-space : nowrap;">-->
+<!--        <div class="popup">-->
+<!--            <div class="head" style="display : flex; flex-direction: column-reverse; margin-top : 5px;">-->
+<!--                <div style="display: flex; justify-content: center;">-->
+<!--                <span class="login_btn" >로그인</span>-->
+<!--                </div>-->
+<!--                <div class="btn-close"></div>-->
+<!--            </div>-->
+<!--            <div class="body">-->
+<!--                <form class="login-form" id="urlForm" th:action="@{/member/login}" method="post">-->
+<!--                    <div style="display: flex; flex-direction: column; align-items: center; margin-top : 4%;">-->
+<!--                        <div class="form-group" style="padding: 4px 0px; margin-top:5%;">-->
+<!--                            <input type="text" name="username" id="username" class="form-control"-->
+<!--                                   style="padding: 8px; border-radius: 6px; background: rgb(245, 245, 245);"-->
+<!--                                   placeholder="사용자 ID" required>-->
+<!--                        </div>-->
+<!--                        <div class="form-group" style="padding: 4px 0px; margin-top:5%;">-->
+<!--                            <input type="password" name="password" id="password" class="form-control"-->
+<!--                                   style="padding: 8px; border-radius: 6px; background: rgb(245, 245, 245);"-->
+<!--                                   placeholder="비밀번호" required>-->
+<!--                        </div>-->
+<!--                        <div>-->
+<!--                            <button type="submit"-->
+<!--                                    style="margin-top:5%; padding: 5px 82px; font-size: 16px; font-weight: bold; border: none; background-color: red; color: white; cursor: pointer;">-->
+<!--                                로그인-->
+<!--                            </button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="form-group" style="padding: 10px; display: flex; justify-content: space-evenly; margin-top : 5%; margin-bottom : 5%;">-->
+<!--                        <a th:href="@{/member/findUsername}">아이디 찾기</a>-->
+<!--                        <a>|</a>-->
+<!--                        <a th:href="@{/member/resetPassword}">비밀번호 찾기</a>-->
+<!--                    </div>-->
+<!--                </form>-->
 
-                <a style="margin-left : 8%;">------------------ OR ------------------</a>
-                <div style="display: flex; justify-content: center; padding: 10px; margin-top : 5%;">
-                    <a th:href="@{/member/login/google}">
-                        <img src="/loginButton/btn_google.svg" alt="Google 로그인" style="width:100px; height:50px;">
-                    </a>
-                    <a th:href="@{/member/login/kakao}">
-                        <img src="/loginButton/btn_kakao.svg" alt="Kakao 로그인" style="width:100px; height:50px;">
-                    </a>
-                    <a th:href="@{/member/login/naver}">
-                        <img src="/loginButton/btn_naver.svg" alt="Naver 로그인" style="width:100px; height:50px;">
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="box-1 con">
-        <button class="btn-show-popup-1">팝업 1 열기</button>
-    </div>
+<!--                <a style="margin-left : 8%;">&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; OR &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;</a>-->
+<!--                <div style="display: flex; justify-content: center; padding: 10px; margin-top : 5%;">-->
+<!--                    <a th:href="@{/member/login/google}">-->
+<!--                        <img src="/loginButton/btn_google.svg" alt="Google 로그인" style="width:100px; height:50px;">-->
+<!--                    </a>-->
+<!--                    <a th:href="@{/member/login/kakao}">-->
+<!--                        <img src="/loginButton/btn_kakao.svg" alt="Kakao 로그인" style="width:100px; height:50px;">-->
+<!--                    </a>-->
+<!--                    <a th:href="@{/member/login/naver}">-->
+<!--                        <img src="/loginButton/btn_naver.svg" alt="Naver 로그인" style="width:100px; height:50px;">-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="box-1 con">-->
+<!--        <button class="btn-show-popup-1">팝업 1 열기</button>-->
+<!--    </div>-->
 
     <div class="content-co" style="width : 1300px; margin : auto; margin-bottom : 30px;">
         <div class="post-co" style="display : flex; flex-direction : row; ">

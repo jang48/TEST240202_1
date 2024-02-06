@@ -142,7 +142,7 @@
 <script>
     const username = (new URLSearchParams(location.search)).get("username");
     document.getElementById("username-holder").innerText = username;
-    const webSocket = new WebSocket("wss://moviebook.site/ws/chat");
+    const webSocket = new WebSocket("ws://localhost:8888/ws/chat");
     let participantCount = 0;
 
     webSocket.onopen = (event) => {

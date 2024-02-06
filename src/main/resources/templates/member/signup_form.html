@@ -2,7 +2,7 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout2}">
 <head>
     <meta charset="UTF-8">
-    <title>로그인</title>
+    <title>회원가입</title>
     <style>
         .btn {
             background-color: #4CAF50;
@@ -23,41 +23,49 @@
     </style>
 </head>
 <body layout:fragment="content">
-<div style="text-align: center; margin-top:10%; margin-bottom:20%; border: 2px solid green; margin-left:30%; margin-right:30%; height:30%">
-    <form th:action="@{/member/signup}" th:object="${memberCreateForm}" method="post" style="margin-top:10%; margin-bottom:10%; text-align: center">
-        <div>
-            <label for="username" class="form-label" style="margin-left:-20%">사용자ID</label>
-            <input type="text" th:field="*{username}" class="form-control" style="margin-left: 35%; border: 2px solid green;">
-            <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="alert alert-danger" style="width:60%; background-color:white; border-color:white; margin-left:32%; color:red"></div>
-        </div>
-        <div>
-            <label for="password1" class="form-label" style="margin-left:-21%">비밀번호</label>
-            <input type="password" th:field="*{password1}" class="form-control" style="margin-left: 35%; border: 2px solid green;">
-            <div th:if="${#fields.hasErrors('password1')}" th:errors="*{password1}" class="alert alert-danger" style="width:67%; border-color:white; background-color:white; margin-left:32%; color:red"></div>
-        </div>
-        <div class="mb-3">
-            <label for="password2" class="form-label" style="margin-left:-16%">비밀번호 확인</label>
-            <input type="password" th:field="*{password2}" class="form-control" style="margin-left: 35%; border: 2px solid green;">
-            <div th:if="${#fields.hasErrors('password2')}" th:errors="*{password2}" class="alert alert-danger"></div>
-        </div>
-        <div>
-            <label for="nickname" class="form-label" style="margin-left:-23%">닉네임</label>
-            <input type="text" th:field="*{nickname}" class="form-control" style="margin-left: 35%; border: 2px solid green;">
-            <div th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}" class="alert alert-danger" style="width:60%; border-color:white; background-color:white; margin-left:32%; color:red"></div>
-        </div>
-        <div>
-            <label for="email" class="form-label" style="margin-left:-23%">이메일</label>
-            <input type="email" th:field="*{email}" class="form-control" style="margin-left: 35%; border: 2px solid green;" required placeholder="홍길동@naver.com">
-            <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert alert-danger"></div>
-        </div>
-        <button onclick="showConfirmationMessage()" class="btn" style="margin-top:2%;">
-            회원가입
-        </button>
-        <script>
-            function showConfirmationMessage() {
-                alert("인증 메일을 확인하세요.");
-            }
-        </script>
-    </form>
+<div style="min-height: 1100px; height: 100vh; display: flex; justify-content: center;">
+    <div style="margin-top: 180px; width: 35%; min-width: 400px;">
+        <form th:action="@{/member/signup}" th:object="${memberCreateForm}" method="post"
+              style="padding: 20px; border: 2px solid black; display: flex; flex-direction: column; align-items: center; border-radius: 10px;">
+            <div>
+                <label for="username" class="form-label">사용자ID</label>
+                <input type="text" th:field="*{username}" class="form-control" style="border: 2px solid black;">
+                <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="alert alert-danger"
+                     style="width:60%; background-color:white; border-color:white; color:red"></div>
+            </div>
+            <div>
+                <label for="password1" class="form-label">비밀번호</label>
+                <input type="password" th:field="*{password1}" class="form-control" style="border: 2px solid black;">
+                <div th:if="${#fields.hasErrors('password1')}" th:errors="*{password1}" class="alert alert-danger"
+                     style="width:67%; border-color:white; background-color:white; color:red"></div>
+            </div>
+            <div>
+                <label for="password2" class="form-label">비밀번호 확인</label>
+                <input type="password" th:field="*{password2}" class="form-control" style="border: 2px solid black;">
+                <div th:if="${#fields.hasErrors('password2')}" th:errors="*{password2}"
+                     class="alert alert-danger"></div>
+            </div>
+            <div>
+                <label for="nickname" class="form-label">닉네임</label>
+                <input type="text" th:field="*{nickname}" class="form-control" style="border: 2px solid black;">
+                <div th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}" class="alert alert-danger"
+                     style="width:60%; border-color:white; background-color:white; color:red"></div>
+            </div>
+            <div>
+                <label for="email" class="form-label">이메일</label>
+                <input type="email" th:field="*{email}" class="form-control" style="border: 2px solid black;" required
+                       placeholder="홍길동@naver.com">
+                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert alert-danger"></div>
+            </div>
+            <button onclick="showConfirmationMessage()" class="btn">
+                회원가입
+            </button>
+            <script>
+                function showConfirmationMessage() {
+                    alert("인증 메일을 확인하세요.");
+                }
+            </script>
+        </form>
+    </div>
 </div>
 </body>

@@ -60,6 +60,10 @@ a {
     font-weight : bold;
 }
 
+.form-control {
+    padding: 6px;
+}
+
 .search{
     border-radius: 5px 5px 5px 5px;
     padding : 8px;

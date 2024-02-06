@@ -89,7 +89,7 @@
         }
 
         #response p {
-            background-color: yellow;
+            background-color: #C0C0C0;
             word-break: break-all;
             padding: 10px;
             border-radius: 15px;
@@ -121,7 +121,7 @@
     </style>
 </head>
 <body>
-<h3 id="room-name">Chat Room</h3>
+<h3 id="room-name">실시간 채팅</h3>
 <div id="conversation">
     <div id="chat-info">
         <p id="participant-count">참여중인 인원: <span id="participant-number">0</span></p>
@@ -142,7 +142,7 @@
 <script>
     const username = (new URLSearchParams(location.search)).get("username");
     document.getElementById("username-holder").innerText = username;
-    const webSocket = new WebSocket("wss://moviebook.site/ws/chat");
+    const webSocket = new WebSocket("ws://localhost:8888/ws/chat");
     let participantCount = 0;
 
     webSocket.onopen = (event) => {

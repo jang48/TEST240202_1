@@ -165,12 +165,6 @@
             enterForm.style.display = (enterForm.style.display === 'none' || enterForm.style.display === '') ? 'block' : 'none';
         }
 
-        document.getElementById("enter-form").addEventListener("submit", event => {
-            event.preventDefault();
-            const username = document.getElementById("username").value;
-            window.open(`/chat/enter?username=${username}`, "_blank", "width=600,height=400");
-        });
-
         function enterChat() {
             const username = document.getElementById("username").value.trim();
             if (username !== "") {

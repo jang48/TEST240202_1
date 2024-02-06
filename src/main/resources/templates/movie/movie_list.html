@@ -2,7 +2,7 @@
 <html lang="ko" layout:decorate="~{layout2}">
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" th:href="@{/Movie/movieDaily.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/movie/movieDaily.css}">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <style>
@@ -53,20 +53,21 @@
                                      style="font-size: 16px; letter-spacing: 2px;">
                                 </div>
                                 <img th:src="${movie.imageUrl}"
-                                     th:if="${not #strings.isEmpty(movie.imageUrl)}">
+                                     th:if="${not #strings.isEmpty(movie.imageUrl)}"
+                                     style="width : 203px; height : 286px;">
                                 <img src="/imgs/noimg.jpg" th:if="${#strings.isEmpty(movie.imageUrl)}"
-                                     style="width : 213px; height : 303px;">
+                                     style="width : 203px; height : 286px;">
                                 <input type="hidden" name="movieCD" th:value="${movie.movieCode}">
-                                <input type="hidden" id="currentPageUrl" name="currentPageUrl" value="">
+                                <input type="hidden" id="currentPageUrl" value="">
                             </div>
-                            <div class="short-info" th:data-id="${movie.movieCode}" th:onmouseenter="'onTitle(this, ' + ${movie.movieCode} + ')'" th:onmouseleave="'leaveTitle(' + ${movie.movieCode} + ')'" style="display : inline-grid; margin-left : 5px;">
-                                <form class="title-co">
-                                    <input class="title" name="title"
-                                           th:value="${#strings.length(movie.title) > 17 ? #strings.substring(movie.title, 0, 17) + '..' : movie.title}"
-                                           style="font-size : 17px;" readonly>
-                                    <input class="title2" name="title" th:value="${movie.title}" hidden="hidden">
-                                    <input type="hidden" name="date" th:value="${movieDailyDate}">
-                                </form>
+                            <div class="short-info" th:data-id="${movie.movieCode}"th:onmouseenter="'onTitle(this, ' + ${movie.movieCode} + ')'"
+                                 th:onmouseleave="'leaveTitle(' + ${movie.movieCode} + ')'" style="display : inline-grid; margin-left : 5px;">
+                                <input class="title"
+                                       th:value="${#strings.length(movie.title) > 17 ? #strings.substring(movie.title, 0, 17) + '..' : movie.title}"
+                                       style="font-size : 17px;" readonly>
+                                <input class="title2" th:value="${movie.title}" hidden="hidden">
+                                <input type="hidden" th:value="${movieDailyDate}">
+
                                 <div class="short-kind" style="text-align : left;">
                                     <span th:text="${movie.genre}"
                                           style="color : #868e96; font-size : 15px;"></span>
@@ -115,18 +116,21 @@
                             <div class="img"
                                  style="padding : 5px; width: 213px; height: 305px; display: flex; justify-content: center; align-items: center;">
                                 <img th:src="${movie.imageUrl}"
-                                     th:if="${not #strings.isEmpty(movie.imageUrl)}">
+                                     th:if="${not #strings.isEmpty(movie.imageUrl)}"
+                                     style="width : 203px; height : 286px;">
                                 <img src="/imgs/noimg.jpg" th:if="${#strings.isEmpty(movie.imageUrl)}"
-                                     style="width : 213px; height : 303px;">
-                                <input type="hidden" name="movieCD" th:value="${movie.movieCode}">
+                                     style="width : 203px; height : 286px;">
                             </div>
-                            <div class="short-info" th:data-id="${movie.movieCode}" th:onmouseenter="'onTitle(this, ' + ${movie.movieCode} + ')'" th:onmouseleave="'leaveTitle(' + ${movie.movieCode} + ')'" style="display : inline-grid; margin-left : 5px;">
+                            <div class="short-info" th:data-id="${movie.movieCode}"
+                                 th:onmouseenter="'onTitle(this, ' + ${movie.movieCode} + ')'"
+                                 th:onmouseleave="'leaveTitle(' + ${movie.movieCode} + ')'"
+                                 style="display : inline-grid; margin-left : 5px;">
                                 <form class="title-co">
-                                    <input class="title" name="title"
+                                    <input class="title"
                                            th:value="${#strings.length(movie.title) > 17 ? #strings.substring(movie.title, 0, 17) + '..' : movie.title}"
                                            style="font-size : 17px;" readonly>
-                                    <input class="title2" name="title" th:value="${movie.title}" hidden="hidden">
-                                    <input type="hidden" name="date" th:value="${movieDailyDate}">
+                                    <input class="title2" th:value="${movie.title}" hidden="hidden">
+                                    <input type="hidden" th:value="${movieDailyDate}">
                                 </form>
                                 <div th:each="ranking : ${movieRankings}" th:if="${ranking[0] == movie.id}">
                                     <div style="display : flex; color: #868e96; font-size: 15px; justify-content: space-between;">
@@ -141,6 +145,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <input type="hidden" name="movieCD" th:value="${movie.movieCode}">
                         </button>
                     </form>
                 </div>
@@ -155,72 +160,72 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
 
-    function leaveTitle(id) {
-        const mvText = document.querySelector('#mv-text-' + id);
-        mvText.remove();
-    }
-    function onTitle(el, id) {
-
-        const titleInput = el.querySelector('.title');
-        const titleInput2 = el.querySelector('.title2');
-        let element2 = document.querySelector('body');
-        let elementTop2 = window.pageYOffset + element2.getBoundingClientRect().top;
-
-        let mvText = document.querySelector('#mv-text-' + id);
-
-        if(mvText == null || mvText == undefined) {
-            const dinamicMvText = document.createElement('div');
-            dinamicMvText.innerText = titleInput2.value;
-            dinamicMvText.classList.add('mv-text');
-            dinamicMvText.setAttribute('id', 'mv-text-' + id);
-
-            dinamicMvText.style.top = window.pageYOffset + titleInput.getBoundingClientRect().top + 'px';
-            dinamicMvText.style.left = window.pageXOffset + titleInput.getBoundingClientRect().left + 'px';
-
-            console.log(dinamicMvText.style.top );
-            console.log(dinamicMvText.style.left);
-
-            document.querySelector('#mv-text-box').appendChild(dinamicMvText);
-            mvText = dinamicMvText;
+        function leaveTitle(id) {
+            const mvText = document.querySelector('#mv-text-' + id);
+            mvText.remove();
         }
-        mvText.style.opacity = '1';
-    }
+        function onTitle(el, id) {
 
-    function handleResize() {
-        const box = document.querySelector("#mv-text-box");
-        box.innerHTML="";
+            const titleInput = el.querySelector('.title');
+            const titleInput2 = el.querySelector('.title2');
+            let element2 = document.querySelector('body');
+            let elementTop2 = window.pageYOffset + element2.getBoundingClientRect().top;
 
-        const infoList = document.querySelectorAll(".short-info");
-        infoList.forEach((info) => {
-            info.addEventListener('mouseenter', (e) => {
-                const id = e.target.dataset.id
-                onTitle(e.target, id);
+            let mvText = document.querySelector('#mv-text-' + id);
+
+            if(mvText == null || mvText == undefined) {
+                const dinamicMvText = document.createElement('div');
+                dinamicMvText.innerText = titleInput2.value;
+                dinamicMvText.classList.add('mv-text');
+                dinamicMvText.setAttribute('id', 'mv-text-' + id);
+
+                dinamicMvText.style.top = window.pageYOffset + titleInput.getBoundingClientRect().top + 'px';
+                dinamicMvText.style.left = window.pageXOffset + titleInput.getBoundingClientRect().left + 'px';
+
+                console.log(dinamicMvText.style.top );
+                console.log(dinamicMvText.style.left);
+
+                document.querySelector('#mv-text-box').appendChild(dinamicMvText);
+                mvText = dinamicMvText;
+            }
+            mvText.style.opacity = '1';
+        }
+
+        function handleResize() {
+            const box = document.querySelector("#mv-text-box");
+            box.innerHTML="";
+
+            const infoList = document.querySelectorAll(".short-info");
+            infoList.forEach((info) => {
+                info.addEventListener('mouseenter', (e) => {
+                    const id = e.target.dataset.id
+                    onTitle(e.target, id);
+                });
             });
-        });
 
-        infoList.forEach((info) => {
-            info.addEventListener('mouseleave', (e) => {
-                const id = e.target.dataset.id
-                leaveTitle(id);
+            infoList.forEach((info) => {
+                info.addEventListener('mouseleave', (e) => {
+                    const id = e.target.dataset.id
+                    leaveTitle(id);
+                });
             });
-        });
-    }
+        }
 
-    window.addEventListener('resize', handleResize);
+        window.addEventListener('resize', handleResize);
 
-    handleResize();
+        handleResize();
 
-        var swiper = new Swiper(".mySwiper", {
-                spaceBetween: 30,
-                pagination: {
-                    el: ".swiper-pagination",
-                    clickable: true,
-                },
-                navigation: {
-                    nextEl: ".swiper-button-next",
-                    prevEl: ".swiper-button-prev",
-                },
-            });
+            var swiper = new Swiper(".mySwiper", {
+                    spaceBetween: 30,
+                    pagination: {
+                        el: ".swiper-pagination",
+                        clickable: true,
+                    },
+                    navigation: {
+                        nextEl: ".swiper-button-next",
+                        prevEl: ".swiper-button-prev",
+                    },
+                });
     </script>
 </div>
 </body>

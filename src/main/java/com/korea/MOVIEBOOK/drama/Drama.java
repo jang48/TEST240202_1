@@ -36,7 +36,7 @@ public class Drama {
     @Column(columnDefinition = "text")
     private String actor; // 배우
 
-    private int rank; // 순위
+    private int rankNum; // 순위
 
     private String plot; // 줄거리
 

@@ -39,7 +39,7 @@ public class MovieWeeklyService {
         Movie movie = this.movieService.findMovieByCD(movieCD);
         MovieWeekly movieWeekly = new MovieWeekly();
         movieWeekly.setMovie(movie);
-        movieWeekly.setRank(rank);
+        movieWeekly.setRankNum(rank);
         movieWeekly.setYear(year);
         movieWeekly.setWeek(week);
         return this.movieWeeklyRepository.save(movieWeekly);

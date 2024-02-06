@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -50,6 +51,7 @@ import static org.bouncycastle.asn1.x500.style.RFC4519Style.member;
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/member")
+@Slf4j
 public class MemberController {
 
     private final MemberService memberService;
@@ -73,6 +75,11 @@ public class MemberController {
             // 검증에 실패한 경우
             return "member/signup_form";
         }
+        // 닉네임 중복 확인
+        if (!memberService.nicknameUnique(memberCreateForm.getNickname())) {
+            bindingResult.rejectValue("nickname", "duplicate", "이미 사용 중인 닉네임입니다.");
+            return "member/signup_form";
+        }
         try {
             Member member = memberService.create(memberCreateForm.getUsername(),
                     memberCreateForm.getPassword1(), memberCreateForm.getNickname(), memberCreateForm.getEmail());
@@ -92,6 +99,7 @@ public class MemberController {
         return "redirect:/member/login";
     }
 
+
     @GetMapping("/verify")
     public String verifyEmail(@RequestParam("userId") long userId) {
         memberService.verifyEmail(userId);  // userId를 사용하여 이메일 인증 처리
@@ -109,13 +117,18 @@ public class MemberController {
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String login(HttpServletRequest request) {
 
-//        String referer = request.getHeader("referer");
-//        session.setAttribute("referer", referer);
-//        session.setAttribute("currentPageUrl", currentPageUrl);
+//        String uri = request.getHeader("Referer");
+//        if (uri != null && !uri.contains("/login")) {
+//            request.getSession().setAttribute("prevPage", uri);
+//        }
 
-//        System.out.println("====================refererrefere=====================" + referer);
+        HttpSession session = request.getSession();
+        String referer = request.getHeader("referer");
+        session.setAttribute("referer", referer);
+        session.setAttribute("currentPageUrl", request.getRequestURI());
+
         return "member/login_form";
     }
 
@@ -231,9 +244,7 @@ public class MemberController {
         Long reviewCount = reviewService.getReivewCount(member);
 
         model.addAttribute("sum", sum);
-
         model.addAttribute("reviewCount", reviewCount);
-        model.addAttribute("parameter", 0);
 
 //        Page<Payment> paging = this.paymentService.getPaymentsByMember(member, page);
 
@@ -256,7 +267,8 @@ public class MemberController {
         MultipartFile mf = mre.getFile("file");
         String uploadPath = "";
 
-        String path = "C:\\" + "Project2\\" + "profileimg\\";
+//        String path = "C:\\" + "Project2\\" + "profileimg\\";
+        String path = System.getProperty("user.dir") + "/Project2/" + "/profileimg/";
 
         File Folder = new File(path);
         if (!Folder.exists()) {
@@ -287,7 +299,6 @@ public class MemberController {
     public String updateNm(Model model, NicknameForm nicknameForm, Principal principal, @RequestParam(value="page", defaultValue="0") int page) {
 
         paymentMember(model, principal, page);
-        model.addAttribute("parameter", 1);
         return "member/changeinfor";
     }
 
@@ -296,8 +307,6 @@ public class MemberController {
                                  Principal principal) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        GrantedAuthority authority = authentication.getAuthorities().iterator().next();
-        model.addAttribute("parameter", 1);
 
 
         if (bindingResult.hasErrors()) {
@@ -319,7 +328,6 @@ public class MemberController {
     @GetMapping("/changePw")
     public String changePw(Model model, PasswordChangeForm passwordChangeForm, Principal principal, @RequestParam(value="page", defaultValue="0") int page) {
         paymentMember(model, principal, page);
-        model.addAttribute("parameter", 2);
 
         return "member/changepw";
     }
@@ -331,7 +339,6 @@ public class MemberController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         GrantedAuthority authority = authentication.getAuthorities().iterator().next();
-        model.addAttribute("parameter", 2);
 
         if (bindingResult.hasErrors()) {
             return "member/changepw";
@@ -356,12 +363,6 @@ public class MemberController {
         return "redirect:/member/logout";
     }
 
-//@GetMapping("/find/review")
-//public String memberFindReview(String reviewId, Principal principal, Model model){
-//    Member member = memberService.getMember(principal.getName());
-//    Review review = this.reviewService.findReviewById(Long.valueOf(reviewId));
-//
-//}
 
 
 
@@ -370,7 +371,6 @@ public class MemberController {
 
 
         paymentMember(model, principal, page);
-        model.addAttribute("parameter", 3);
         return "member/contents_purchase_details/member_purchase_details";
     }
 
@@ -412,7 +412,6 @@ public class MemberController {
     @GetMapping("/deleteForm")
     public String memberDeleteForm(PasswordResetForm passwordResetForm, Principal principal, Model model, @RequestParam(value="page", defaultValue="0") int page) {
         paymentMember(model, principal, page);
-        model.addAttribute("parameter", 4);
         return "member/delete_form";
     }
 
@@ -425,7 +424,6 @@ public class MemberController {
             return "member/delete_form";
         }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        model.addAttribute("parameter", 4);
 
         if (passwordResetForm.getPassword().equals(passwordResetForm.getPasswordConfirm())) {
             Member member = memberService.findByusername(principal.getName());

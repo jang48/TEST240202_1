@@ -16,7 +16,7 @@ public class MovieDailyService {
         Movie movie = this.movieService.findMovieByCD(movieCD);
         MovieDaily movieDaily = new MovieDaily();
         movieDaily.setMovie(movie);
-        movieDaily.setRank(rank);
+        movieDaily.setRankNum(rank);
         movieDaily.setDate(date);
         return this.movieDailyRepository.save(movieDaily);
     }

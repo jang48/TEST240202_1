@@ -17,7 +17,7 @@ public class MovieWeekly {
 
     private String week;                // 조회 일자(주)     - LocalDate
 
-    private Long rank;                  // 순위             - 영화 진흥원 API
+    private Long rankNum;                  // 순위             - 영화 진흥원 API
 
     @OneToOne(mappedBy = "movieweekly")
     private Movie movie;

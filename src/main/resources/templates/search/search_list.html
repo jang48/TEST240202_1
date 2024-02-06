@@ -17,8 +17,14 @@
         </div>
         <div>
             <div style="display: flex; justify-content: space-around; margin-top: 40px; font-weight: bold">
-                <span style="font-size: 30px; color: black;">영화</span>
-                <p class="movie_console" style="cursor: pointer; margin-top: 22px;">더보기</p>
+                <div style="display : flex;">
+                    <span style="font-size: 30px; color: black;">영화</span>
+                    <span th:text="${'( 총 ' + pagingmovie.getTotalElements() + '개의 검색결과 )'}" style="display: flex; align-items: center; color : #868e96; margin-left : 10px;"></span>
+                </div>
+                <form th:if="${pagingmovie.getTotalPages() > 1}" th:action="@{/search/movie}" method="get">
+                    <button style="cursor: pointer; margin-top: 22px;">더보기</button>
+                    <input type="text" name="kw" th:value="${param.kw}" hidden="hidden">
+                </form>
             </div>
             <div style="display: flex; justify-content: center; margin-bottom: 60px;">
                 <div style="width : 60%; max-height: 820px;">
@@ -58,34 +64,18 @@
                                 </div>
                             </button>
                         </form>
-                        <div class="join" th:if="${pagingmovie.totalPages > 0}" style="display : flex; justify-content : space-around; margin-top : 18px;">
-                            <ul class="pagination justify-content-center" style="display : flex;">
-                                <li class="page-item" th:classappend="${!pagingmovie.hasPrevious} ? 'btn-disabled'">
-                                    <a class="join-item btn" th:if="${pagingmovie.hasPrevious}" th:href="@{|?page=${pagingmovie.number-1}|}">
-                                        <span>«</span>
-                                    </a>
-                                </li>
-                                <li th:each="page: ${#numbers.sequence(pagingmovie.number, pagingmovie.number)}"
-                                    th:if="${page >= pagingmovie.number and page <= pagingmovie.number}"
-                                    th:classappend="${page == pagingmovie.number} ? 'active'"
-                                    class="page-item btn-disabled">
-                                    <span th:text="${'Page ' + (page + 1)}" class="join-item btn" th:href="@{|?page=${page}|}"></span>
-                                </li>
-                                <li class="page-item" th:classappend="${!pagingmovie.hasNext} ? 'btn-disabled'">
-                                    <a class="join-item btn" th:if="${pagingmovie.hasNext}" th:href="@{|?page=${pagingmovie.number+1}|}">
-                                        <span>»</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
             </div>
-
-
             <div style="display: flex; justify-content: space-around; margin-top: 40px; font-weight: bold">
-                <span style="font-size: 30px; color: black;">TV</span>
-                <p class="drama_console" style="cursor: pointer; margin-top: 22px;">더보기</p>
+                <div style="display : flex;">
+                    <span style="font-size: 30px; color: black;">TV</span>
+                    <span th:text="${'( 총 ' + pagingDrama.getTotalElements() + '개의 검색결과 )'}" style="display: flex; align-items: center; color : #868e96; margin-left : 10px;"></span>
+                </div>
+                <form th:if="${pagingDrama.getTotalPages() > 1}" th:action="@{/search/drama}" method="get">
+                    <button style="cursor: pointer; margin-top: 22px;">더보기</button>
+                    <input type="text" name="kw" th:value="${param.kw}" hidden="hidden">
+                </form>
             </div>
             <div style="display: flex; justify-content: center; margin-bottom: 60px;">
                 <div style="width : 60%; max-height: 820px;">
@@ -123,8 +113,14 @@
 
 
             <div style="display: flex; justify-content: space-around; margin-top: 40px; font-weight: bold">
-                <span style="font-size: 30px; color:black;">도서</span>
-                <p class="book_console" style="cursor: pointer; margin-top: 22px;">더보기</p>
+                <div style="display : flex;">
+                    <span style="font-size: 30px; color: black;">도서</span>
+                    <span th:text="${'( 총 ' + pagingBook.getTotalElements() + '개의 검색결과 )'}" style="display: flex; align-items: center; color : #868e96; margin-left : 10px;"></span>
+                </div>
+                <form th:if="${pagingBook.getTotalPages() > 1}" th:action="@{/search/book}" method="get">
+                    <button style="cursor: pointer; margin-top: 22px;">더보기</button>
+                    <input type="text" name="kw" th:value="${param.kw}" hidden="hidden">
+                </form>
             </div>
             <div style="display: flex; justify-content: center; margin-bottom: 60px;">
                 <div style="width : 60%; max-height: 820px;">
@@ -158,8 +154,14 @@
 
 
             <div style="display: flex; justify-content: space-around; margin-top: 40px; font-weight: bold">
-                <span style="font-size: 30px; color:black;">웹툰</span>
-                <p class="webtoon_console" style="cursor: pointer; margin-top: 22px;">더보기</p>
+                <div style="display : flex;">
+                    <span style="font-size: 30px; color: black;">웹툰</span>
+                    <span th:text="${'( 총 ' + pagingWebtoon.getTotalElements() + '개의 검색결과 )'}" style="display: flex; align-items: center; color : #868e96; margin-left : 10px;"></span>
+                </div>
+                <form th:if="${pagingWebtoon.getTotalPages() > 1}" th:action="@{/search/webtoon}" method="get">
+                    <button style="cursor: pointer; margin-top: 22px;">더보기</button>
+                    <input type="text" name="kw" th:value="${param.kw}" hidden="hidden">
+                </form>
             </div>
             <div style="display: flex; justify-content: center;">
                 <div style="width : 60%;">
@@ -188,27 +190,6 @@
                                 <input type="hidden" name="webtoonId" th:value="${webtoon.getWebtoonId()}">
                             </button>
                         </form>
-<!--                        <div class="join" th:if="${pagingWebtoon.totalPages > 0}" style="display : flex; justify-content : space-around; margin-top : 18px;">-->
-<!--                            <ul class="pagination justify-content-center" style="display : flex;">-->
-<!--                                <li class="page-item" th:classappend="${!pagingWebtoon.hasPrevious} ? 'btn-disabled'">-->
-<!--                                    <a class="join-item btn" th:if="${pagingWebtoon.hasPrevious}" th:href="@{|?page=${pagingWebtoon.number-1}|}">-->
-<!--                                        <span>«</span>-->
-<!--                                    </a>-->
-<!--                                </li>-->
-<!--                                <li th:each="page: ${#numbers.sequence(pagingWebtoon.number, pagingWebtoon.number)}"-->
-<!--                                    th:if="${page >= pagingWebtoon.number and page <= pagingWebtoon.number}"-->
-<!--                                    th:classappend="${page == pagingWebtoon.number} ? 'active'"-->
-<!--                                    class="page-item btn-disabled">-->
-<!--                                    <span th:text="${'Page ' + (page + 1)}" class="join-item btn" th:href="@{|?page=${page}|}"></span>-->
-<!--                                </li>-->
-
-<!--                                <li class="page-item" th:classappend="${!pagingWebtoon.hasNext} ? 'btn-disabled'">-->
-<!--                                    <a class="join-item btn" th:if="${pagingWebtoon.hasNext}" th:href="@{|/search?kw=${param.kw}&amp;page=${pagingWebtoon.number + 1}|}">-->
-<!--                                        <span>»</span>-->
-<!--                                    </a>-->
-<!--                                </li>-->
-<!--                            </ul>-->
-<!--                        </div>-->
                     </div>
                 </div>
             </div>
@@ -222,7 +203,7 @@
                 });
 
                 $(function () {
-                    $(".more_dramalist").slice(0, 10).show();
+                    $(".more_dramalist").slice(0, 5).show();
                 });
 
                 $(function () {

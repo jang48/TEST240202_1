@@ -51,3 +51,14 @@ input.button {
     width: 61px;
     font-size: 12px;
 }
+
+.click-button {
+    height: 24px;
+    margin: 3px 0 0 6px;
+    padding: 0 8px;
+    border-width: 1px 1px 1px 1px;
+    border-style: solid;
+    border-radius: 17px;
+    font-size: 14px;
+    color : #0d0d0e;
+}

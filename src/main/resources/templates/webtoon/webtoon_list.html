@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="ko" layout:decorate="~{layout2}" >
+<html lang="ko" layout:decorate="~{layout2}">
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" th:href="@{/Webtoon/webtoon.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/webtoon/webtoon.css}">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
 </head>
@@ -48,14 +48,12 @@
                                   background: green; color: white; padding: 10px; margin-left: -12.5%; margin-top: -19%;"></div>
                                     <img th:src="${webtoon.getImageUrl}" style="max-height: 100%;">
                                 </div>
-                                <div class="short-info" style="display : flex; flex-direction: column; align-items: flex-start;
-                        margin-left : 5px;">
-                                    <form class="title-co">
-                                        <input class="title" name="title"
-                                               th:value="${#strings.length(webtoon.title) > 17 ? #strings.substring(webtoon.title, 0, 17) + '..' : webtoon.title}"
-                                               style="font-size : 17px;" readonly>
-                                        <div class="mv-text" th:text="${webtoon.title}"></div>
-                                    </form>
+                                <div class="short-info"
+                                     style="display : flex; flex-direction: column; align-items: flex-start; margin-left : 5px;">
+                                    <input class="title"
+                                           th:value="${#strings.length(webtoon.title) > 17 ? #strings.substring(webtoon.title, 0, 17) + '..' : webtoon.title}"
+                                           style="font-size : 17px;" readonly>
+                                    <div class="mv-text" th:text="${webtoon.title}"></div>
 
                                     <div class="short-kind">
                                         <span style="color : #868e96; font-size : 15px;">글,그림 :</span>

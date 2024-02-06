@@ -2,7 +2,7 @@
 <html lang="ko" layout:decorate="~{layout2}">
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" th:href="@{/Drama/dramaList.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/drama/dramaList.css}">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <style>
@@ -20,7 +20,7 @@
                     <div class="swiper-pagination swiper-pagination"
                          style="position:relative; margin-top:5px; display:flex; flex-direction:row; justify-content:flex-end;">
                     </div>
-                    <span style="color : #000000; font-size : 20px; font-weight : bold; margin-bottom : 3px; margin-left: 6%">드라마 TOP 10</span>
+                    <span style="color : #000000; font-size : 20px; font-weight : bold; margin-bottom : 3px; margin-left: 6%">국내 드라마</span>
                 </div>
                 <div class="swiper-wrapper">
                     <div class="swiper-slide" style="display:flex; font-size: 18px; align-items: center; height : 100%;"
@@ -30,6 +30,12 @@
                             <button>
                                 <div class="img"
                                      style="padding : 5px; width: 213px; height: 305px; display: flex; justify-content: center; align-items: center;">
+                                    <div class="rank" th:text="${drama.rankNum}">
+                                    </div>
+                                    <div class="rank" th:text="${drama.rankNum}"
+                                         style="font-size: 16px; letter-spacing: 2px;">
+                                    </div>
+                                    <img th:sr
                                     <img th:src="${'/dramaImage' + drama.imageUrl}"
                                          th:if="${not #strings.isEmpty(drama.imageUrl)}">
                                     <img src="/imgs/noimg.jpg" th:if="${#strings.isEmpty(drama.imageUrl)}"
@@ -76,6 +82,11 @@
                             <button>
                                 <div class="img"
                                      style="padding : 5px; width: 213px; height: 305px; display: flex; justify-content: center; align-items: center;">
+                                    <div class="rank" th:text="${drama.rankNum}">
+                                    </div>
+                                    <div class="rank" th:text="${drama.rankNum}"
+                                         style="font-size: 16px; letter-spacing: 2px;">
+                                    </div>
                                     <img th:src="${'/dramaImage' + drama.imageUrl}"
                                          th:if="${not #strings.isEmpty(drama.imageUrl)}">
                                     <img src="/imgs/noimg.jpg" th:if="${#strings.isEmpty(drama.imageUrl)}"

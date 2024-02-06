@@ -7,6 +7,6 @@ import java.util.Optional;
 
 public interface MovieDailyRepository extends JpaRepository<MovieDaily,Long> {
     List<MovieDaily> findBydate(String date);
-    Optional<MovieDaily> findByDateAndRank(String date, Long rank);
+    Optional<MovieDaily> findByDateAndRankNum(String date, Long rank);
 
 }

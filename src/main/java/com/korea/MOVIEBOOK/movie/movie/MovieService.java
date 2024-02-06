@@ -104,7 +104,7 @@ public class MovieService {
         {
             MovieDTO movieDTO= MovieDTO.builder()
                     .movieCode(movieDaily1.getMovie().getMovieCode())
-                    .dailyRank(movieDaily1.getRank())
+                    .dailyRank(movieDaily1.getRankNum())
                     .date(movieDaily1.getDate())
                     .title(movieDaily1.getMovie().getTitle())
                     .director(movieDaily1.getMovie().getDirector())
@@ -136,7 +136,7 @@ public class MovieService {
         {
             MovieDTO movieDTO= MovieDTO.builder()
                     .movieCode(movieWeekly.getMovie().getMovieCode())
-                    .weeklyRank(movieWeekly.getRank())
+                    .weeklyRank(movieWeekly.getRankNum())
                     .year(movieWeekly.getYear())
                     .week(movieWeekly.getWeek())
                     .title(movieWeekly.getMovie().getTitle())
@@ -242,4 +242,13 @@ public class MovieService {
 //
 //        return movieRepository.findByMemberId(paymentId, pageable);
 //    }
+
+    public Movie getMovieUseId(Long id) {
+
+        Movie movie = this.movieRepository.getById(id);
+
+        return movie;
+    }
 }
+
+

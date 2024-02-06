@@ -7,6 +7,18 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <title>MOVIE&BOOK</title>
     <link rel="icon" href="/etc/cat.gif">
+    <style>
+        body {
+            height: 100vh;
+            display: grid;
+            grid-template-rows: 10fr 80fr 20fr;
+            margin: 0;
+        }
+
+        .footer {
+            white-space: nowrap;
+        }
+    </style>
 </head>
 <body>
 <div class="layout2-co">
@@ -30,9 +42,10 @@
         <div style="display: flex; width: 40%; justify-content: center;">
             <div style="width: 50%;">
                 <form th:action="@{/search}" method="get">
-                    <img src="/imgs/dodbogi.svg" style="width : 15px; position: sticky; top: 5%; margin-left: 2%;">
-                    <input class="search" id="search" type="search" name="kw" style="width: 100%; background: #dddedf;"
+                    <img src="/imgs/dodbogi.svg" style="width : 15px; position: sticky; top: 6.5%; margin-left: 2%;">
+                    <input class="search" id="search_kw" type="search" name="kw" style="width: 100%; background: #dddedf;"
                            placeholder="콘텐츠,인물,컬렉션, 유저를 검색해보세요." th:value="${param.kw}">
+
                 </form>
             </div>
             <div style="display: flex; align-items: flex-end; font-weight: bold;">

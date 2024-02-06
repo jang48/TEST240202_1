@@ -11,6 +11,11 @@
 <div style="width : 100%; min-height: 715px; display: flex; flex-direction: column; align-items: center; padding-bottom : 34px;">
     <div style="width : 53%; border-bottom: 1px solid #dddddd; margin-top : 25px;">
         <span style="font-size : 22px; font-weight : bold; margin-left : 28px;">코멘트</span>
+        <div style="display: flex; margin-top: -27px; justify-content: flex-end; margin-bottom: 7px;">
+            <button class="click-button" onclick="updateReview()" style="margin-right : 10px;">수정</button>
+            <button class="click-button" onclick="saveReview()">저장</button>
+            <button class="click-button" onclick="deleteReview()" style="margin-left : 10px;">삭제</button>
+        </div>
     </div>
     <div style="width : 50%; margin-top : 15px;">
         <div style="display : flex; justify-content : space-between; margin-bottom : 10px;">
@@ -19,8 +24,9 @@
                     <img th:if="${review.member.profileImage}" th:src="${review.member.profileImage}"
                          style="height : 23px; width : 23px; border-radius : 17px;">
                     <span th:if="${review.member.nickname}" th:text="${review.member.nickname}"
-                          style="font-size : 14px; margin-left : 5px; padding : 3px;"></span>
-                    <span th:text="${#temporals.format(review.dateTime, 'yyyy-MM-dd')}"></span>
+                          style="margin-left : 5px; padding : 3px;"></span>
+                    <span id="writeDate" th:text="${review.dateTime}" hidden="hidden"></span>
+                    <span id="nowDate" style="font-size: 12px; font-weight: 400; letter-spacing: -0.2px; color: rgb(120, 120, 120); line-height: 16px; margin-left: 4px; margin-top: 7px;"></span>
                 </div>
                 <div style="display : flex; flex-direction : column;">
                     <span id="title" th:text=="${info.title}" style="font-size : 16px; font-weight : bold;"></span>
@@ -45,7 +51,13 @@
                 <img th:if="${info == null}" src="/imgs/noimg.jpg">
             </div>
         </div>
-        <span th:text="${review.comment}"></span>
+        <form class="review-Co">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <input name="reviewId" type="hidden" th:value="${review.id}">
+            <input name="contentsID" type="hidden" th:value="${contentsID}">
+            <input name="category" type="hidden" th:value="${category}">
+            <input name="review" id="New-review" style="padding : 10px;" th:value="${review.comment}" readonly>
+        </form>
         <div style="display : flex; margin-top : 28px; color : #868E96; cursor : default;">
             <span>좋아요</span>
             <span class="number" th:text="${#lists.size(review.hearts)}" style="margin-left : 5px;"></span>
@@ -121,13 +133,25 @@
                 </div>
                 <span th:text="${#temporals.format(comment.dateTime, 'yyyy-MM-dd')}"></span>
             </div>
-            <span th:text="${comment.content}"></span>
-            <div sec:authorize="isAuthenticated()" th:if="${memberInfo.id == review.member.id}" style="display: flex; justify-content: flex-end;">
-                <input class="btnWhite" th:value="수정" style="letter-spacing : 0.2em; cursor : pointer;">
-                <button onclick="deleteComment();">
-                    <input id="comment_id" type="hidden" th:value="${comment.id}">
-                    <input class="btnWhite" th:value="삭제" style="margin-left : 5px; letter-spacing : 0.2em; cursor : pointer;">
-                </button>
+            <div sec:authorize="isAuthenticated()" th:if="${memberInfo.id == review.member.id}"
+                 style="display: flex;">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <div class="Comment-Co" style="flex: 1;">
+                    <form class="Comment-Co-Info">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                        <input name="reviewId" type="hidden" th:value="${review.id}">
+                        <input name="commentId" type="hidden" th:value="${comment.id}">
+                        <input name="contentsID" type="hidden" th:value="${contentsID}">
+                        <input name="category" type="hidden" th:value="${category}">
+                        <input name="comment" id="New-comment" class="comment-input" th:value="${comment.content}" style="padding : 10px;"
+                               readonly>
+                    </form>
+                    <div style="display: flex; justify-content: flex-end;">
+                        <button class="click-button" onclick="updateComment(this)" style="margin-right : 10px;">수정</button>
+                        <button class="click-button" onclick="saveComment2(this)">저장</button>
+                        <button class="click-button" onclick="deleteComment(this)" style="margin-left : 10px;">삭제</button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -144,7 +168,7 @@
                 <textarea id="comment"
                           style="width : 100%; height : 70px; margin-top : 10px; margin-bottom : 10px; padding : 3px;"></textarea>
                 <div style="display : flex; justify-content: flex-end;">
-                    <button onclick="saveComment();">
+                    <button onclick="saveComment()">
                         <input id="member_id" type="hidden" th:if="${memberInfo}" th:value="${memberInfo.id}">
                         <input id="review_id" type="hidden" th:value="${review.id}">
                         <input title="Button push orange" class="button btnPush btnOrange"
@@ -156,11 +180,26 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
-    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
         var title = document.getElementById('title').innerText;
         let url = window.location.href;
+        document.addEventListener('DOMContentLoaded', function() {
+            const oldDateElement = document.getElementById('writeDate').textContent;
+            const oldDate = new Date(oldDateElement);
+
+            const now = new Date();
+            const diff = Math.abs(now.getTime() - oldDate.getTime());
+            const daysDiff = Math.ceil(diff / (1000 * 60 * 60 * 24));
+
+            const setDate = document.getElementById('nowDate');
+            if(daysDiff-1 == 0){
+                setDate.textContent = '오늘';
+            } else {
+            setDate.textContent = daysDiff-1 + '일전';
+            }
+        });
 
         function clickHeart(button){
             var heartIcon = button.querySelector('.heartIcon');
@@ -202,6 +241,57 @@
             }
         }
 
+        function updateReview() {
+            document.getElementById("New-review").removeAttribute("readonly");
+            document.getElementById("New-review").focus();
+        }
+
+        function saveReview(){
+            var form = document.querySelector('.review-Co');
+            if(confirm("코멘트를 수정하시겠습니까?")){
+                form.method = "POST";
+                form.action = "/review/update";
+                form.submit();
+            }
+        }
+
+        function deleteReview(){
+            var form = document.querySelector('.review-Co');
+            if(confirm("코멘트를 삭제하시겠습니까?")){
+                form.method = "POST";
+                form.action = "/review/delete";
+                form.submit();
+            }
+        }
+
+        function updateComment(button) {
+            var commentCo = button.closest('.Comment-Co');
+            var newCommentInput = commentCo.querySelector('.comment-input');
+            newCommentInput.removeAttribute("readonly");
+            newCommentInput.focus();
+        }
+
+        function saveComment2(button) {
+            var commentCo = button.closest('.Comment-Co');
+            var form = commentCo.querySelector('.Comment-Co-Info');
+
+            if (confirm("댓글을 수정하시겠습니까?")) {
+                form.method = "POST";
+                form.action = "/comment/update";
+                form.submit();
+            }
+        }
+
+        function deleteComment(button){
+            var commentCo = button.closest('.Comment-Co');
+            var form = commentCo.querySelector('.Comment-Co-Info');
+
+            if(confirm("댓글을 삭제하시겠습니까?")){
+                form.method = "POST";
+                form.action = "/comment/delete";
+                form.submit();
+            }
+        }
 
         function shareTwitter() {
             var sendText = title + " 리뷰";
@@ -273,7 +363,6 @@
             });
         });
 
-
         function saveComment() {
             var reviewID = document.getElementById('review_id').value;
             if(document.getElementById('member_id') == null){
@@ -302,34 +391,6 @@
                 },
                 error: function (xhr, status, error) {
                     console.error("Error saving comment: " + error);
-                }
-            });
-        }
-
-        function deleteComment() {
-            var commentID = document.getElementById('comment_id').value;
-            if(document.getElementById('member_id') == null){
-                Swal.fire({
-                    icon: 'warning',
-                    title: '로그인 후 이용해주세요.',
-                });
-                return false;
-            }
-            if (!confirm('댓글을 삭제하시겠습니까?')) {
-            }
-
-            $.ajax({
-                url: "/comment/delete/" + commentID,
-                type: "GET",
-                data: {
-                    category: '[[${category}]]',
-                    commentId: commentId
-                },
-                success: function (data) {
-                    location.reload(); // 페이지 새로고침
-                },
-                error: function (xhr, status, error) {
-                    console.error("Error deleting comment: " + error);
                 }
             });
         }

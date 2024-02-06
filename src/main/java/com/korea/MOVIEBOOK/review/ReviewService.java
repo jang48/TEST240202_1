@@ -110,6 +110,8 @@ public class ReviewService {
     public Long getReivewCount(Member member) {
         return reviewRepository.countByMember(member);
     }
+
+
     public List<Review> getReviewByBookId(Long BookId) {
         return reviewRepository.findReviewsByBookId(BookId);
     }
@@ -170,5 +172,15 @@ public class ReviewService {
         existingReview.setRating(updateReview.getRating());
         reviewRepository.save(existingReview);
     }
+    public void updateReview(String comment, Long reviewId){
+        Review review = findReviewById(reviewId);
+        review.setComment(comment);
+        review.setDateTime(LocalDateTime.now());
+        this.reviewRepository.save(review);
+    }
 
+    public void deleteReview(Long reviewId){
+        Review review = this.reviewRepository.findById(reviewId).get();
+        this.reviewRepository.delete(review);
+    }
 }

@@ -20,7 +20,6 @@ public interface WebtoonRepository extends JpaRepository<Webtoon, Long> {
 
     Page<Webtoon> findAll(Pageable pageable);
 
-//    Page<Webtoon> findWebtoonPurchase(Member member, Pageable pageable);
 
 
 

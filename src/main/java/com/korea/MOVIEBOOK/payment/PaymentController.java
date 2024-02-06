@@ -57,7 +57,7 @@ public class PaymentController {
         model.addAttribute("member", member);
         model.addAttribute("paging", paging);
         model.addAttribute("sum", sum);
-        return "Payment/payment";
+        return "payment/payment";
     }
 
     @PostMapping("/kakaoPayCheck")

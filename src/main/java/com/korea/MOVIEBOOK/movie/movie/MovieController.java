@@ -143,7 +143,7 @@ public class MovieController {
         model.addAttribute("allList2", allList2);
         model.addAttribute("movieRankings", movieRankings);
 
-        return "Movie/movie_list";
+        return "movie/movie_list";
     }
 
 
@@ -288,7 +288,7 @@ public class MovieController {
         return "contents/contents_detail";
     }
 
-    //
+
     public void movieDailySize(List<Map> failedMovieList) {
         if (failedMovieList != null && !failedMovieList.isEmpty()) {
             List<Map> failedMoiveList = movieDailyAPI.saveDailyMovieDataByAPI(failedMovieList);

@@ -56,15 +56,25 @@ public class DramaController {
             endIndex += 5;
         }
 
+        int rank = 1;
+        for (Drama drama : dramaList1) {
+            drama.setRankNum(rank++);
+        }
+        rank = 1;
+        for (Drama drama : dramaList2) {
+            drama.setRankNum(rank++);
+        }
+
         model.addAttribute("dramaListList1", dramaListList1);
         model.addAttribute("dramaListList2", dramaListList2);
         return "drama/drama_list";
     }
+
     @GetMapping("/detail")
     public String dramaDetail(Long dramaId, Model model, Principal principal) {
         Drama drama = dramaService.getDramaById(dramaId);
         ContentsDTO contentsDTOS = this.contentsService.setDramaContentsDTO(drama);
-        List<List<String>> actorListList =  this.dramaService.getActorListList(drama);
+        List<List<String>> actorListList = this.dramaService.getActorListList(drama);
         List<Review> reviews = dramaService.getReviewByDramaId(dramaId).stream().limit(12).collect(Collectors.toList());
         List<Review> reviewList = dramaService.getReviewByDramaId(dramaId);
         String paid = "false";
@@ -84,7 +94,7 @@ public class DramaController {
         model.addAttribute("author_actor_ListList", actorListList);
         model.addAttribute("avgRating", String.format("%.1f", avgRating));
 
-        if(principal != null){
+        if (principal != null) {
             String providerID = principal.getName();
             Member member = this.memberService.findByproviderId(providerID);
             if (member == null) {
@@ -94,30 +104,30 @@ public class DramaController {
             Heart heart = this.heartRepository.findByMemberAndDrama(member, drama);
 
             Optional<Payment> payment = Optional.ofNullable(this.paymentRepository.findByMemberAndContentsAndContentsID(member, "drama", String.valueOf(dramaId)));
-            if(payment.isPresent()){
-                paid ="true";
+            if (payment.isPresent()) {
+                paid = "true";
             }
-            List<Payment> payments  = this.paymentRepository.findBymember(member);
+            List<Payment> payments = this.paymentRepository.findBymember(member);
             long sum = 0;
 
-            for(int i  = 0 ; i < payments.size(); i++){
-                if(payments.get(i).getContent().contains("충전")){
+            for (int i = 0; i < payments.size(); i++) {
+                if (payments.get(i).getContent().contains("충전")) {
                     sum += Long.valueOf(payments.get(i).getPaidAmount());
                 } else {
                     sum -= Long.valueOf(payments.get(i).getPaidAmount());
                 }
             }
-            model.addAttribute("paid",paid);
-            model.addAttribute("login","true");
-            model.addAttribute("member",member);
-            model.addAttribute("sum",sum);
-            model.addAttribute("heart",heart);
+            model.addAttribute("paid", paid);
+            model.addAttribute("login", "true");
+            model.addAttribute("member", member);
+            model.addAttribute("sum", sum);
+            model.addAttribute("heart", heart);
         } else {
-            model.addAttribute("paid",paid);
-            model.addAttribute("login","false");
-            model.addAttribute("member","");
-            model.addAttribute("sum","");
-            model.addAttribute("heart","");
+            model.addAttribute("paid", paid);
+            model.addAttribute("login", "false");
+            model.addAttribute("member", "");
+            model.addAttribute("sum", "");
+            model.addAttribute("heart", "");
         }
         return "contents/contents_detail";
     }
@@ -180,27 +190,4 @@ public class DramaController {
         return "contents/contents_detail";
     }
 
-
-//    @GetMapping("/drama/{id}")
-//    public String dramaDetail(@PathVariable Long id, Model model) {
-//        Drama drama = dramaService.getDramaById(id);
-//        // dramaService 에서 DramaById를 조회하여 drama에 저장
-//        List<Review> reviews = dramaService.getReviewByDramaId(id).stream().limit(10).collect(Collectors.toList());
-//        // dramaService 에서 reviewsByDramaId를 10개까지만 조회하여 reviews에 저장
-//
-//        List<List<String>> actorListList =  this.dramaService.getActorListList(drama);
-//
-//
-//        double avgRating = reviews.stream() // reviews에서 stream 생성
-//                .filter(review -> review.getRating() != null) // rating이 null인 review는 제외
-//                .mapToDouble(Review::getRating) // 리뷰 객체에서 평점만 추출하여 정수 스트림 생성
-//                .average() // 평점의 평균값 계산
-//                .orElse(0); // 리뷰가 없을 경우 0.0출력
-//        model.addAttribute("drama", drama); // model 객체에 drama 전달
-//        model.addAttribute("reviews", reviews); // model 객체에 reviews 전달
-//        model.addAttribute("newReview", new Review()); // model 객체에 new Review 전달
-//        model.addAttribute("avgRating", String.format("%.1f", avgRating));  // 소수점 첫째 자리까지만 표시
-//        model.addAttribute("actorListList", actorListList);
-//        return "drama/drama_detail";
-//    }
 }

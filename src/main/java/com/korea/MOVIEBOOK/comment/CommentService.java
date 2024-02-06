@@ -29,6 +29,19 @@ public class CommentService {
         this.commentRepository.save(comment1);
     }
 
+    public void updateComment(String comment, Long commentId){
+        Comment comment1 = this.commentRepository.findById(commentId).get();
+        comment1.setContent(comment);
+        comment1.setDateTime(LocalDateTime.now());
+        this.commentRepository.save(comment1);
+    }
+
+    public void deleteComment(Long commentId){
+        Comment comment1 = this.commentRepository.findById(commentId).get();
+        this.commentRepository.delete(comment1);
+    }
+
+
     public Comment getComment(Long commentid) {
         Optional<Comment> commentOptional = this.commentRepository.findById(commentid);
         if(commentOptional.isEmpty()){
@@ -37,7 +50,7 @@ public class CommentService {
         return commentOptional.get();
     }
 
-    public void deleteComment(Comment comment) {
-        this.commentRepository.delete(comment);
-    }
+//    public void deleteComment(Comment comment) {
+//        this.commentRepository.delete(comment);
+//    }
 }

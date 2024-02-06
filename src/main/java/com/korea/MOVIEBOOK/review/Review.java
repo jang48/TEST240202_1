@@ -52,6 +52,6 @@ public class Review {
     @OneToMany( mappedBy = "review", cascade = CascadeType.ALL)
     private List<Heart> hearts;
 
-    @OneToMany(mappedBy = "review")
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
     private List<Comment> commentList;
 }

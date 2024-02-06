@@ -128,3 +128,80 @@ body {
     align-items : center;
     cursor : pointer;
 }
+
+#enter-form {
+    display: none;
+    position: fixed;
+    bottom: 92px;
+    right: 46px;
+    padding: 10px;
+    width: 318px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+	background: #fbd7ed;
+	border-radius: .4em;
+}
+
+.chatImg {
+    animation: bounce 1s infinite;
+  }
+
+@keyframes bounce {
+  0% {
+    top: 40px;
+      animation-timing-function: ease-in;
+    }
+    50% {
+    top: 120px;
+      height: 40px;
+    animation-timing-function: ease-out;
+    }
+    55% {
+    top: 150px; height: 25px;
+      animation-timing-function: ease-in;
+  }
+    65% {
+    top: 120px; height: 40px;
+      animation-timing-function: ease-out;
+  }
+    95% {
+      top: 40px;
+      animation-timing-function: ease-in;
+    }
+    100% {
+    top: 40px;
+      animation-timing-function: ease-in;
+    }
+}
+@keyframes shadow {
+  0% {
+    transform: scale(0.1);
+    background-color: rgba(0, 0, 0, 0.1);
+    animation-timing-function: ease-in;
+    }
+  50% {
+    transform: scale(1);
+    background-color: rgba(0, 0, 0, 0.2);
+    animation-timing-function: ease-out;
+  }
+  55% {
+    transform: scale(1);
+    background-color: rgba(0, 0, 0, 0.2);
+    animation-timing-function: ease-in;
+  }
+  65% {
+    transform: scale(0.5);
+    background-color: rgba(0, 0, 0, 0.15);
+    animation-timing-function: ease-out;
+  }
+  95% {
+    transform: scale(0.1);
+    background-color: rgba(0, 0, 0, 0.1);
+    animation-timing-function: ease-in;
+  }
+  100% {
+    transform: scale(0.1);
+    background-color: rgba(0, 0, 0, 0.1);
+    animation-timing-function: ease-in;
+  }
+}

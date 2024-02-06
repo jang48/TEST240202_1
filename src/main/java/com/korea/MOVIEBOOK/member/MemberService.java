@@ -30,6 +30,10 @@ public class MemberService {
         return member;
     }
 
+    public boolean nicknameUnique(String nickname) {
+        return memberRepository.findByNickname(nickname).isEmpty();
+    }
+
     public void verifyEmail(long memberId) {
         Optional<Member> memberOpt = memberRepository.findById(memberId);
         // memberId를 통해 특정 member 데이터 조회

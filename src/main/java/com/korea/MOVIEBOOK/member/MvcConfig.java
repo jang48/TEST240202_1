@@ -11,7 +11,6 @@ public class MvcConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry
                 .addResourceHandler("/profileimg/**")
-                .addResourceLocations("file:///C:/Project2/profileimg/");
-
+                .addResourceLocations("file:///" + System.getProperty("user.dir") + "/Project2/" + "/profileimg/");
     }
 }

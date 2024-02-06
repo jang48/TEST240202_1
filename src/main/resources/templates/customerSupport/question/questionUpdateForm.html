@@ -1,8 +1,8 @@
 <html lang="ko" layout:decorate="~{/customerSupport/customerSupportLayout}">
 <div layout:fragment="CScontent" class="menuDetail" id="default" style="height: 100vh; padding: 40px 40px 0px 50px; min-width: 100vh;">
     <div style="height: 100%;">
-        <form th:action id="createForm" method="post" style="height: 100%;" th:object="${questionCreateForm}">
-            <input class="input input-bordered w-full" id="title" name="title" type="text" th:field="*{title}" placeholder="제목" style="margin-bottom: 10px;"/>
+        <form th:action="@{'/customerSupport/question/update/' + ${question.id}}" id="createForm" method="post" style="height: 100%;" th:object="${questionCreateForm}">
+            <input class="input input-bordered w-full" id="title" name="title" type="text" placeholder="제목" style="margin-bottom: 10px;" th:field="*{title}"/>
             <div class="textarea textarea-bordered textarea-3xl w-full" id="container"
                  oninput="onDivContentHandler()" contentEditable='true' style="height: 80%; resize: none; overflow: auto;">
                 <div th:if="${#fields.hasErrors('content')}" th:errors="*{content}" class="alert alert-danger"></div>
@@ -13,7 +13,7 @@
                     <span style="padding-right: 6px;">비밀글</span>
                     <input type="checkbox" class="checkbox" name="checkBox"/>
                 </div>
-                <input type="button" class="btn btn-outline" th:value="저장하기" onclick="createForm()">
+                <input type="submit" class="btn btn-outline" th:value="수정하기">
             </div>
             <div>
                 <input type="file" name="img">
@@ -21,21 +21,14 @@
         </form>
     </div>
     <script th:inline="javascript">
+        window.onload = function() {
+        var initialContent = document.getElementById('content').value;
+        document.getElementById('container').innerText = initialContent;
+    };
+
         function onDivContentHandler() {
             var divContent = document.getElementById('container').innerText;
             document.getElementById('content').value = divContent;
-        }
-
-        function createForm() {
-            var category = /*[[${category}]]*/ null;
-            if (category === "NOTICE") {
-                document.getElementById('createForm').action = '/customerSupport/question/createNotice';
-            } else if (category === "FAQ") {
-                document.getElementById('createForm').action = '/customerSupport/question/createFAQ';
-            } else if (category === "QUESTION") {
-                document.getElementById('createForm').action = '/customerSupport/question/createQuestion';
-            }
-            document.getElementById('createForm').submit();
         }
 
         var category = /*[[${category}]]*/ null;

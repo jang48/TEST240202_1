@@ -51,4 +51,13 @@ public class QuestionService {
     public void delete(Question question) {
         questionRepository.delete(question);
     }
+
+    public Question updateQuestion(Long questionId, QuestionCreateForm questionCreateForm) {
+        Question question = questionRepository.findById(questionId).get();
+        question.setTitle(questionCreateForm.getTitle());
+        question.setContent(questionCreateForm.getContent());
+        question.setPrivate(questionCreateForm.isCheckBox());
+        questionRepository.save(question);
+        return question;
+    }
 }

@@ -78,8 +78,8 @@ public class QuestionController {
         return "redirect:/customerSupport/FAQ";
     }
 
-    @GetMapping("/detail")
-    public String questionDetail(Long questionId, Model model, Principal principal, HttpSession session) {
+    @GetMapping("/detail/{questionId}")
+    public String questionDetail(@PathVariable Long questionId, Model model, Principal principal) {
         Question question = questionService.findByQuestionId(questionId);
         String errorMsg = "해당 글을 읽을 권한이 없습니다.";
         Member member = memberService.getMember(principal.getName());
@@ -141,16 +141,26 @@ public class QuestionController {
         }
     }
 
-    @GetMapping("update/{questionId}")
-    public String updateQuestion(@PathVariable Long questionId, Model model, Principal principal, String category) {
+    @GetMapping("updateForm/{questionId}")
+    public String updateQuestionForm(@PathVariable Long questionId, Model model, Principal principal, String category, QuestionCreateForm questionCreateForm) {
         Question question = questionService.findByQuestionId(questionId);
         Member member = memberService.getMember(principal.getName());
+        questionCreateForm.setTitle(question.getTitle());
+        questionCreateForm.setContent(question.getContent());
+        questionCreateForm.setCheckBox(question.isPrivate());
         if (member.getUsername().equals(question.getMember().getUsername())) {
             model.addAttribute("category", category);
             model.addAttribute("question", question);
-            return "customerSupport/question/questionForm";
+            System.out.println("====================>" + question.getTitle());
+            return "customerSupport/question/questionUpdateForm";
         } else {
-            return "redirect:/";
+            return "redirect:/customerSupport/question/detail/" + question.getId();
         }
+    }
+
+    @PostMapping("update/{questionId}")
+    public String updateQuestion(@PathVariable Long questionId, Model model, String category, QuestionCreateForm questionCreateForm, Principal principal) {
+        Question question = questionService.updateQuestion(questionId, questionCreateForm);
+        return "redirect:/customerSupport/question/detail/" + question.getId();
     }
 }

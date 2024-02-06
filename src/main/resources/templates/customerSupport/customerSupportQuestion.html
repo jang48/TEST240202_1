@@ -26,17 +26,17 @@
             <tr th:each="question : ${paging}">
                 <th class="noticeBoard" style="width: 10%" th:text="${question.id}"></th>
                 <th class="noticeBoard" style="width: 40%">
-                    <form th:action="@{/customerSupport/question/detail}" method="get">
-                        <button class="questionTitle th:text="${question.title}" style="width: 100%"></button>
-                        <input type="hidden" name="questionId" th:value="${question.id}">
+                    <form th:action="@{'/customerSupport/question/detail/' + ${question.id}}" method="get">
+                        <button class="questionTitle" th:text="${question.title}" style="width: 100%"></button>
                     </form>
                 </th>
                 <th class="noticeBoard" th:text="${question.member.nickname}"></th>
                 <th class="noticeBoard" th:text="${#temporals.format(question.writeDate, 'yyyy-MM-dd')}"></th>
                 <th class="noticeBoard">조회수</th>
                 <th style="text-align: -webkit-center; vertical-align: middle;"><img th:if="${question.isPrivate}" src="/imgs/lock.png" alt="" style="width: 35px;"></th>
-                <th class="noticeBoard btn" th:if="${question.member.username == member.username || member.username == 'admin'}">
-                    <form th:action="@{'/customerSupport/question/delete/' + ${question.id}}" method="post">
+                <th class="noticeBoard" th:if="${member != null}">
+                    <form class="btn btn-outline" th:action="@{'/customerSupport/question/delete/' + ${question.id}}" method="post"
+                          th:if="${question.member.username == member.username || member.username == 'admin'}">
                         <input type="hidden" name="category" th:value="${category}">
                         <button>삭제</button>
                     </form>

@@ -28,8 +28,10 @@ public class CustomerSupportController {
     @GetMapping("notice")
     public String mainPage(Model model, Principal principal, @RequestParam(value="page", defaultValue="0") int page) {
         Page<Question> paging = questionService.getQuestionList(Category.NOTICE, page);
-        Member member = memberService.getMember(principal.getName());
-        model.addAttribute("member", member);
+        if (principal != null) {
+            Member member = memberService.getMember(principal.getName());
+            model.addAttribute("member", member);
+        }
         model.addAttribute("paging", paging);
         model.addAttribute("category", Category.NOTICE);
         return "customerSupport/customerSupportQuestion";
@@ -38,8 +40,10 @@ public class CustomerSupportController {
     @GetMapping("question")
     public String question(Model model, Principal principal, @RequestParam(value="page", defaultValue="0") int page) {
         Page<Question> paging = questionService.getQuestionList(Category.QUESTION, page);
-        Member member = memberService.getMember(principal.getName());
-        model.addAttribute("member", member);
+        if (principal != null) {
+            Member member = memberService.getMember(principal.getName());
+            model.addAttribute("member", member);
+        }
         model.addAttribute("paging", paging);
         model.addAttribute("category", Category.QUESTION);
         return "customerSupport/customerSupportQuestion";
@@ -48,8 +52,10 @@ public class CustomerSupportController {
     @GetMapping("FAQ")
     public String FAQ(Model model, Principal principal, @RequestParam(value="page", defaultValue="0") int page) {
         Page<Question> paging = questionService.getQuestionList(Category.FAQ, page);
-        Member member = memberService.getMember(principal.getName());
-        model.addAttribute("member", member);
+        if (principal != null) {
+            Member member = memberService.getMember(principal.getName());
+            model.addAttribute("member", member);
+        }
         model.addAttribute("paging", paging);
         model.addAttribute("category", Category.FAQ);
         return "customerSupport/customerSupportQuestion";

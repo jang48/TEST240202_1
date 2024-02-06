@@ -133,16 +133,6 @@ public class BookController {
 
         return "contents/contents_detail";
     }
-//
-//    @PostMapping("/detail")
-//    public String bookDetail(String isbn, Model model) {
-//        Book book = bookService.findByIsbn(isbn);
-//        List<List<String>> authorListList = bookService.getAuthorListList(book);
-//        model.addAttribute("book", book);
-//        model.addAttribute("reviews", book.getReviewList());
-//        model.addAttribute("authorListList", authorListList);
-//        return "category/bookDetail";
-//    }
 
     @GetMapping("/detail/{isbn}")
     public String bookDetail1(@PathVariable("isbn") String isbn, Model model, Principal principal) {

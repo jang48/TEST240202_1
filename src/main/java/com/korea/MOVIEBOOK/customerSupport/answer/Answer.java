@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class Answer {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,6 +19,6 @@ public class Answer {
 
     private LocalDateTime writeDate;
 
-    @ManyToOne
+    @OneToOne
     private Question question;
 }

@@ -14,7 +14,6 @@ import java.util.List;
 @Getter
 @Setter
 public class Question {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,8 +26,8 @@ public class Question {
 
     private LocalDateTime writeDate;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
-    private List<Answer> answerList;
+    @OneToOne(mappedBy = "question", cascade = CascadeType.ALL)
+    private Answer answer;
 
     @ManyToOne
     private Member member;

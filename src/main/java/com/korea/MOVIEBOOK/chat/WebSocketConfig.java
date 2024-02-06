@@ -14,8 +14,8 @@ public class WebSocketConfig implements WebSocketConfigurer {
     private final ChatHandler chatHandler;
 
     @Override
-    //WebSocketHandler 객체 등록
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(chatHandler,"ws/chat").setAllowedOrigins("*");
-    }
+    }  // "/ws/chat" 엔드포인트로 WebSocketHandler 객체를 등록
+       // setAllowedOrigins("*")를 통해 모든 오리진에서의 접근을 허용
 }

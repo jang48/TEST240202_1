@@ -152,16 +152,20 @@ public class MemberController {
     }
 
     @PostMapping("/resetPassword")
-    public String resetPassword(@Valid Member member, BindingResult bindingResult, Model model) {
+    public String resetPassword(@Valid Member member, BindingResult bindingResult, Model model) { // 유효성 검사
         if (bindingResult.hasErrors()) {
             model.addAttribute("errorMessage", "입력한 정보가 올바르지 않습니다.");
             return "member/reset_password";
+            // 오류가 있을시 오류 메세지를 전달하고 다시 reset_password 폼으로 이동
         }
 
         Member member1 = memberService.getMemberByEmail(member.getEmail());
+        // 이메일 기준으로 회원 조회
+
         if (member1 == null || !member1.getUsername().equals(member.getUsername())) {
             model.addAttribute("errorMessage", "해당 이메일 또는 아이디와 일치하는 회원 정보를 찾을 수 없습니다.");
             return "member/reset_password";
+            // 회원 정보가 일치하지 않을 경우 오류 메세지 전달
         }
 
         try {
@@ -171,7 +175,7 @@ public class MemberController {
             e.printStackTrace();
             model.addAttribute("errorMessage", "이메일 전송 중 오류가 발생했습니다.");
             return "member/login_form";
-        }
+        }   // 이메일 전송 중 오류 발생시
 
         return "member/login_form";
     }

@@ -19,10 +19,10 @@ public class Oauth2UserService extends DefaultOAuth2UserService {
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest);
-        System.out.println("Attributes: " + oAuth2User.getAttributes().toString());
 
         String provider = userRequest.getClientRegistration().getRegistrationId();
         String providerId = "";
+        // OAuth2 공급자를 가져옴
 
         if (provider.equals("kakao")) {
             Long id = oAuth2User.getAttribute("id");
@@ -39,11 +39,11 @@ public class Oauth2UserService extends DefaultOAuth2UserService {
 
         String username = provider + "_" + providerId;
         Optional<Member> _member = memberRepository.findByUsername(username);
-        Member member;
 
+        Member member;
         if (_member.isPresent()) {
             member = _member.get();
-            // 기존 사용자 정보 업데이트 로직 (필요한 경우 추가)
+            // 회원이 이미 존재하는지 확인 존재하면 갱신 그렇지 않으면 생성
         } else {
             member = new Member();
             member.setUsername(username);
@@ -54,14 +54,14 @@ public class Oauth2UserService extends DefaultOAuth2UserService {
             String defaultImageUrl = getDefaultImageUrl(provider);
             member.setProfileImage(defaultImageUrl);
 
-            if ("naver".equals(provider)) {
+            if ("naver".equals(provider)) { // 네이버
                 Map<String, Object> naverResponse = (Map<String, Object>) oAuth2User.getAttributes().get("response");
                 if (naverResponse != null) {
                     member.setNickname((String) naverResponse.get("nickname"));
                     member.setProfileImage((String) naverResponse.get("profile_image"));
                     member.setEmail((String) naverResponse.get("email"));
                 }
-            } else {
+            } else { // 카카오
                 Map<String, Object> properties = (Map<String, Object>) oAuth2User.getAttributes().get("properties");
                 if (properties != null) {
                     member.setNickname((String) properties.get("nickname"));

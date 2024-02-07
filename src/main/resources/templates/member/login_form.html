@@ -9,7 +9,6 @@
 <div style="display: flex; justify-content: center; align-items: flex-start;  height: 65vh; margin-top: 10%;">
     <div style="border:2px solid black; padding: 50px; border-radius: 10px;">
         <form th:action="@{/member/login}" method="post" style="display: flex; flex-direction: column; align-items: center;">
-            <input type="hidden" name="referer" th:value="${referer}">
             <div th:if="${param.error}" class="alert alert-danger">
                 사용자ID 또는 비밀번호를 확인해 주세요.
             </div>

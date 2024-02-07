@@ -12,10 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequiredArgsConstructor
 public class ChatController {
 
-    @GetMapping("rooms")
-    public String rooms() {
-        return "rooms";
-    }
 
     @GetMapping("enter")
     public String enter(@RequestParam("username") String username, Model model) {

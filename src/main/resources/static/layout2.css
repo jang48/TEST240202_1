@@ -21,6 +21,10 @@ body {
 input {
     background : #FFFFFF;
 }
+
+div {
+    background : #FFFFFF;
+}
 .layout2-co{
     background : #FFFFFF;
     display : flex;

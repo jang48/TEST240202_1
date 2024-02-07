@@ -49,18 +49,14 @@ public class WebtoonController {
         List<List<List<Webtoon>>> allList = new ArrayList<>();//  월,화,수,목,금,토,일이라는 값을 가져오기 위함
         List<Webtoon> webtoonList = new ArrayList<>();
 
-//        Collections.sort(webtoonList, Comparator.comparingInt(Webtoon::getFanCount).reversed());
-
-
-
         for (Day day1 : days) {
-            List<WebtoonDayList> webtoonDayLists = webtoonDayListService.findBywebtoonDay(day1);
-            if(webtoonDayLists.isEmpty()){
+            List<WebtoonDayList> webtoonDayLists2 = webtoonDayListService.findBywebtoonDay(day1);
+            if(webtoonDayLists2.isEmpty()){
                 List<Long> webtoon = webtoonService.getWebtoonAPI(day1.getUpdateDays());
                 webtoonDayListService.SaveWebtoonDayList(day1.getId(), webtoon);
             }
-            webtoonDayLists = webtoonDayListService.findBywebtoonDay(day1);
-            for (WebtoonDayList webtoonDayList : webtoonDayLists) {
+            webtoonDayLists2 = webtoonDayListService.findBywebtoonDay(day1);
+            for (WebtoonDayList webtoonDayList : webtoonDayLists2) {
                 Webtoon webtoon2 = webtoonDayList.getWebtoonList();
                 webtoonList.add(webtoon2);
             }

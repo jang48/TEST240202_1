@@ -8,6 +8,16 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@4.5.0/dist/full.min.css" type="text/css"/>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        #loading-spinner {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+        }
+    </style>
 </head>
 <body>
 <div class="layout-co">
@@ -66,6 +76,22 @@
     </div>
 </div>
 <th:block layout:fragment="content"></th:block>
+<div id="loading-spinner">
+    <img src="buy.png" alt="로딩 중...">
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+    // 로딩 스피너를 표시하는 함수
+    function showLoadingSpinner() {
+        document.getElementById('loading-spinner').style.display = 'block';
+    }
+
+    // 로딩 스피너를 숨기는 함수
+    function hideLoadingSpinner() {
+        document.getElementById('loading-spinner').style.display = 'none';
+    }
+</script>
 </body>
 </html>
